@@ -20,11 +20,11 @@
 
 # Flask Route
 
-/
-/register
-/login
-/logout
-/chatbot
+- `/`
+- `/register`
+- `/login`
+- `/logout`
+- `/chatbot`
 
 # tasks needs to be addressed by order
 
