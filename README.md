@@ -28,7 +28,7 @@
 - `/logout`
 - `/chatbot`
 
-# tasks needs to be addressed by order
+# Tasks needs to be addressed by order
 
 - define the frequent questions and answers for IT support context
 - just prompt engineering might be enough based on it, or fine-tune the model
