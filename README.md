@@ -15,6 +15,8 @@
 - Bootstrap for fancy UI
 - Vertex AI for AI part
 - Flask-login for authentication
+- Oauth 2.0 or JWT for security
+- pytest for testing
 - Supabase for PostgreSQL (store the account data, use password hashing for security)
 - Cloud Run/Docker/GitHub Actions for deploy
 
