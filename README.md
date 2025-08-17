@@ -10,15 +10,12 @@
 
 # Tech Stack
 
-- Python
-- Flask
-- Bootstrap for fancy UI
-- Vertex AI for AI part
-- Flask-login for authentication
-- Oauth 2.0 or JWT for security
-- pytest for testing
-- Supabase for PostgreSQL (store the account data, use password hashing for security)
-- Cloud Run/Docker/GitHub Actions for deploy
+- Backend Development: Python, Flask, RESTful APIs, Flask-Login (authentication), OAuth 2.0 / JWT (security)
+- Frontend: Bootstrap (UI/UX)
+- Databases: Supabase (PostgreSQL), password hashing for secure account storage
+- AI Integration: Google Vertex AI (ML model integration)
+- Testing: Pytest (unit & integration testing)
+- Deployment & Infrastructure: Docker, GitHub Actions (CI/CD), Google Cloud Run
 
 # Flask Route
 
