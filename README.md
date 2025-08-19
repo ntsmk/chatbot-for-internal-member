@@ -22,14 +22,6 @@
 - Testing: Pytest (unit & integration testing)
 - Deployment & Infrastructure: Docker, GitHub Actions (CI/CD), Google Cloud Run
 
-## Flask Route
-
-- `/`
-- `/register`
-- `/login`
-- `/logout`
-- `/chatbot`
-
 ## Tasks needs to be addressed by order
 
 -   [ ] define the frequent questions and answers for IT support context -> in progress
