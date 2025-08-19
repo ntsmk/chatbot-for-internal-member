@@ -3,6 +3,11 @@
 - After logging in as registered user, it allows the user to access /chatbot, otherwise, return 403
 - Under /chatbot, the user can type questions, the chatbot returns the answer
 
+# Background
+
+- I noticed our team lacked a strong internal knowledge base to support new employees.
+- To address this, I began building a combined internal wiki and a user-friendly AI-powered chatbot.
+
 # Expected user of this system
 
 - Newer ish technician who needs fundamental knowledge?
