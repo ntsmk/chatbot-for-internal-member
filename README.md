@@ -26,8 +26,8 @@
 
 ## Tasks needs to be addressed by order
 
--   [ ] define the frequent questions and answers for IT support context -> in progress
--   [ ] just prompt engineering might be enough based on it, or fine-tune the model
+-   [X] define the frequent questions and answers for IT support context 
+-   [ ] just prompt engineering might be enough based on it, or fine-tune the model -> in progress
 -   [ ] implement the model in /chatbot
 -   [ ] create other routes (should be easier than AI part)
 
