@@ -19,7 +19,7 @@
 
 - Backend Development: Python, Flask, RESTful APIs, Flask-Login (authentication), OAuth 2.0 / JWT (security)
 - Frontend: Bootstrap (UI/UX)
-- Databases: Supabase (PostgreSQL), password hashing for secure account storage
+- Databases: Supabase (PostgreSQL), password hashing for secure account storage, Redis for caching embeddings
 - AI Integration: Google Vertex AI (ML model integration)
 - Testing: Pytest (unit & integration testing)
 - Deployment & Infrastructure: Docker, GitHub Actions (CI/CD), Google Cloud Run
