@@ -27,7 +27,7 @@
 ## Tasks needs to be addressed by order
 
 -   [X] define the frequent questions and answers for IT support context 
--   [ ] just prompt engineering might be enough based on it, or fine-tune the model -> prompt engineering + RAG in progress
+-   [X] just prompt engineering might be enough based on it, or fine-tune the model -> prompt engineering + RAG used
 -   [ ] implement the model in /chatbot
 -   [ ] create other routes (should be easier than AI part)
 
