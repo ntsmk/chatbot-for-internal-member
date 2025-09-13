@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 import chromadb
 
 # Future-proof imports - use Google AI SDK instead. Vertex AI SDK will be deprecated.
-try:
+try:  # importing new SDK might fail
     import google.generativeai as genai
 
     USE_NEW_SDK = True
@@ -22,14 +22,14 @@ load_dotenv()
 if USE_NEW_SDK:
     # Google AI SDK setup
     genai.configure(api_key=os.getenv("GOOGLE_AI_API_KEY"))
-    chat_model = genai.GenerativeModel("gemini-2.0-flash-lite")
+    chat_model = genai.GenerativeModel("gemini-2.5-flash-lite")
     # Set up embedding model
     EMBEDDING_MODEL = "gemini-embedding-001"
 else:
     # Vertex AI SDK setup
     PROJECT_ID = os.getenv("PROJECT_ID")
     vertexai.init(project=PROJECT_ID, location="us-central1")
-    chat_model = GenerativeModel("gemini-2.0-flash-lite-001")
+    chat_model = GenerativeModel("gemini-2.5-flash-lite-001")
     embedding_model = TextEmbeddingModel.from_pretrained("text-embedding-005")
 
 # ChromaDB setup
@@ -38,10 +38,17 @@ faq_collection = chromadb_client.get_or_create_collection("faq_docs")
 
 
 def get_embeddings(texts):
-    """Get embeddings for a list of texts using the appropriate SDK"""
+    """
+    Get embeddings for a list of texts using the appropriate SDK.
+    This is for faq.json embedding because of task_type="retrieval_document"
+    Takes faq text as input
+    Returns list of embeddings
+
+    """
     if USE_NEW_SDK:
         # Google AI SDK approach (google-generativeai package)
-        if isinstance(texts, str):
+        if isinstance(texts,
+                      str):
             texts = [texts]
 
         try:
@@ -51,11 +58,11 @@ def get_embeddings(texts):
                 result = genai.embed_content(
                     model=EMBEDDING_MODEL,
                     content=text,
-                    task_type="retrieval_document",  # Use lowercase for google-generativeai
-                    output_dimensionality=768
+                    task_type="retrieval_document",
+                    output_dimensionality=768  # common dimension number used in NlP models
                 )
-                # The result is a dict with 'embedding' key containing the vector
-                if hasattr(result, 'embedding'):
+                if hasattr(result,
+                           'embedding'):
                     embeddings.append(result.embedding)
                 elif 'embedding' in result:
                     embeddings.append(result['embedding'])
@@ -63,16 +70,17 @@ def get_embeddings(texts):
                     print(f"Unexpected result format: {type(result)}")
                     print(f"Result keys: {result.keys() if hasattr(result, 'keys') else 'No keys'}")
                     return None
-            return embeddings
+            return embeddings  # retuning the list type of embeddings
         except Exception as e:
             print(f"Error with Google AI embeddings: {e}")
             print(f"Make sure your GOOGLE_AI_API_KEY is set correctly in .env file")
             return None
     else:
-        # Vertex AI approach
-        try: # calling embedding_model.get_embeddings() might fail
+        # Using old Vertex AI SDK approach
+        try:
             embeddings = []
-            for text in texts if isinstance(texts, list) else [texts]:
+            for text in texts if isinstance(texts, list) else [
+                texts]:
                 vector = embedding_model.get_embeddings([text])[0].values
                 embeddings.append(vector)
             return embeddings
@@ -82,17 +90,23 @@ def get_embeddings(texts):
 
 
 def get_query_embedding(query_text):
-    """Get embedding for a single query text"""
+    """
+    Get embedding for a single query text
+    This is for user input embedding because of task_type="retrieval_query"
+    Takes user input as input
+    Returns one single embedding result
+    """
     if USE_NEW_SDK:
-        try: # calling genai.embed_content() might fail
+        try:
             result = genai.embed_content(
                 model=EMBEDDING_MODEL,
                 content=query_text,
-                task_type="retrieval_query",  # Use lowercase for google-generativeai
-                output_dimensionality=768
+                task_type="retrieval_query",
+                output_dimensionality=768  # common dimension number used in NLP models
             )
             # The result structure varies, handle both cases
-            if hasattr(result, 'embedding'):
+            if hasattr(result,
+                       'embedding'):
                 return result.embedding
             elif 'embedding' in result:
                 return result['embedding']
@@ -112,11 +126,16 @@ def get_query_embedding(query_text):
 
 
 def generate_embeddings():
-    """Generate embeddings from FAQ JSON and store in ChromaDB"""
+    """
+    Generate embeddings from FAQ JSON and store in ChromaDB
+    using get_embeddings inside of it because this is meant for fetching data from documents. Not user input.
+    This function don't take input data because in this function's, it opens .json file as input
+    and no retuning data because it adds to vector DB as consequence
+    """
     import json
 
     try:
-        with open("faq.json", "r") as f:
+        with open("faq.json", "r", encoding='utf-8') as f:
             faqs = json.load(f)
     except FileNotFoundError:
         print("Error: faq.json file not found!")
@@ -127,64 +146,40 @@ def generate_embeddings():
 
     print(f"Processing {len(faqs)} FAQs...")
 
-    # Process in batches for efficiency
-    batch_size = 10
-    for i in range(0, len(faqs), batch_size):
-        batch = faqs[i:i + batch_size]
+    try:
+        # Get embeddings for the batch
+        texts = [faq["content"] for faq in faqs]
+        embeddings = get_embeddings(texts)
 
-        try:
-            # Get embeddings for the batch
-            texts = [faq["content"] for faq in batch]
-            embeddings = get_embeddings(texts)
+        if embeddings is None:
+            print(f"Failed to generate embeddings")
 
-            if embeddings is None:
-                print(f"Failed to generate embeddings for batch starting at index {i}")
-                continue
+        # Add to ChromaDB
+        for i, (faq, embedding) in enumerate(zip(faqs, embeddings)):
+            faq_collection.add(
+                ids=[str(i)],
+                documents=[faq["content"]],
+                metadatas=[{
+                    "title": faq.get("title", "No title"),
+                    "url": faq.get("url", "No URL"),
+                    "category": faq.get("category", "General")
+                }],
+                embeddings=[embedding]
+            )
 
-            # Add to ChromaDB
-            for j, (faq, embedding) in enumerate(zip(batch, embeddings)):
-                idx = i + j
-                faq_collection.add(
-                    ids=[str(idx)],
-                    documents=[faq["content"]],
-                    metadatas=[{
-                        "title": faq.get("title", "No title"),
-                        "url": faq.get("url", "No URL"),
-                        "category": faq.get("category", "General")
-                    }],
-                    embeddings=[embedding]
-                )
-
-            print(f"Processed batch {i // batch_size + 1} of {(len(faqs) - 1) // batch_size + 1}")
-
-        except Exception as e:
-            print(f"Error processing batch starting at index {i}: {e}")
-            continue
+    except Exception as e:
+        print(f"Error processing : {e}")
 
     print("Successfully added all FAQs to Chroma vector db")
 
-def check_db():
-    """Check database contents"""
-    try:
-        collections = chromadb_client.list_collections()
-        print("Collections:", [c.name for c in collections])
-
-        collection = chromadb_client.get_collection("faq_docs")
-        count = collection.count()
-        print(f"Total documents in collection: {count}")
-
-        if count > 0:
-            results = collection.peek(limit=3)
-            print("Sample records:")
-            for i, (doc, metadata) in enumerate(zip(results["documents"], results["metadatas"])):
-                print(f"  {i + 1}. {metadata.get('title', 'No title')}")
-                print(f"     {doc[:100]}...")
-
-    except Exception as e:
-        print(f"Error checking database: {e}")
 
 def answer_question(user_query):
-    """Answer user question using RAG with proper embeddings"""
+    """
+    Answer user question using RAG with proper embeddings. Core function in this system
+    Takes user input as input, pass the data to get_query_embedding() function and then get embedding data from it
+    Call chat_model.generate_content() and then pass prompt
+    Returns gemini's response in human language.
+    """
     try:
         # Get query embedding
         query_vector = get_query_embedding(user_query)
@@ -219,12 +214,12 @@ def answer_question(user_query):
         prompt = f"""You are a helpful IT support employee assisting with client IT issues.
 
         Your client asked: "{user_query}"
-        
+
         Here is the most relevant FAQ:
         Title: {best_title}
         Content: {best_doc}
         Source: {best_url}
-        
+
         Rules:
         - Always give a clear and concise answer.
         - Begin your answer with the source URL.
@@ -239,9 +234,13 @@ def answer_question(user_query):
         return f"Error processing your question: {e}"
 
 def main():
-    """Main interactive loop"""
-    print("IT support FAQ Assistant")
-    print(f"Using {'Google AI SDK' if USE_NEW_SDK else 'Vertex AI SDK'}")
+    """
+    Main interactive loop.
+    Take user input as input using input() and then pass the data to call answer_question() function.
+    print out gemini's response
+     """
+    print("Break/Fix FAQ Assistant")
+    # print(f"Using {'Google AI SDK' if USE_NEW_SDK else 'Vertex AI SDK'}")
     print("Type 'quit' or 'exit' to end the conversation")
     print("-" * 40)
 
@@ -249,7 +248,7 @@ def main():
         user_input = input("\nPlease describe the IT issue for your client: ").strip()
 
         if user_input.lower() in ['quit', 'exit', 'q']:
-            print("Thank you for using IT support FAQ Assistant")
+            print("Thank you for using Break/Fix FAQ Assistant")
             break
 
         if not user_input:
@@ -264,8 +263,7 @@ def main():
 
 if __name__ == "__main__":
     # Uncomment these lines when needed:
-    # generate_embeddings()  # Run once when JSON is updated
-    # check_db()  # Use to verify database contents
+    # generate_embeddings()  # Run once when faq.json is updated
 
     # Start the interactive session
     main()
