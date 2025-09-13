@@ -20,14 +20,14 @@
 - Backend Development: Python, Flask, RESTful APIs, Flask-Login (authentication), OAuth 2.0 / JWT (security)
 - Frontend: Bootstrap (UI/UX)
 - Databases: Supabase (PostgreSQL), password hashing for secure account storage, Redis for caching embeddings
-- AI Integration: Google Vertex AI (ML model integration)
+- AI Integration: Google Vertex AI (prompt engineering + RAG)
 - Testing: Pytest (unit & integration testing)
 - Deployment & Infrastructure: Docker, GitHub Actions (CI/CD), Google Cloud Run
 
 ## Tasks needs to be addressed by order
 
 -   [X] define the frequent questions and answers for IT support context 
--   [ ] just prompt engineering might be enough based on it, or fine-tune the model -> prompt engineering + RAG in progress
+-   [X] just prompt engineering might be enough based on it, or fine-tune the model -> prompt engineering + RAG used
 -   [ ] implement the model in /chatbot
 -   [ ] create other routes (should be easier than AI part)
 
