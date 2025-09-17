@@ -28,8 +28,9 @@
 
 -   [X] define the frequent questions and answers for IT support context 
 -   [X] just prompt engineering might be enough based on it, or fine-tune the model -> prompt engineering + RAG used
--   [ ] implement the model in /chatbot
+-   [ ] deploy the model in /chatbot as simple MVP -> in progress
 -   [ ] create other routes (should be easier than AI part)
+-   [ ] brush up with Bootstrap (UI/UX), Flask-Login (authentication), OAuth 2.0 / JWT (security), set up Supabase (PostgreSQL) for passwords
 
 ## Status
 
