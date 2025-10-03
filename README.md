@@ -17,20 +17,17 @@
 
 ## Tech Stack
 
-- Backend Development: Python, Flask, RESTful APIs, Flask-Login (authentication), OAuth 2.0 / JWT (security)
-- Frontend: Bootstrap (UI/UX)
-- Databases: Supabase (PostgreSQL), password hashing for secure account storage, Redis for caching embeddings
+- Backend Development: Python, Flask, RESTful APIs
 - AI Integration: Google Vertex AI (prompt engineering + RAG)
 - Testing: Pytest (unit & integration testing)
-- Deployment & Infrastructure: Docker, GitHub Actions (CI/CD), Google Cloud Run
+- Deployment & Infrastructure: Docker, GitHub Actions (CI/CD), Google Cloud Run, Kubernetes, Terraform  
 
 ## Tasks needs to be addressed by order
 
 -   [X] define the frequent questions and answers for IT support context 
 -   [X] just prompt engineering might be enough based on it, or fine-tune the model -> prompt engineering + RAG used
 -   [ ] deploy the model in /chatbot as simple MVP -> in progress
--   [ ] create other routes (should be easier than AI part)
--   [ ] brush up with Bootstrap (UI/UX), Flask-Login (authentication), OAuth 2.0 / JWT (security), set up Supabase (PostgreSQL) for passwords
+
 
 ## Status
 
