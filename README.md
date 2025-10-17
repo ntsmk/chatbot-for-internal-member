@@ -15,11 +15,11 @@
 - Backend Development: Python, Flask, RESTful APIs
 - AI Integration: Google Vertex AI (prompt engineering + RAG)
 - Testing: Pytest (unit & integration testing)
-- DevOps & Infrastructure: Docker, GitHub Actions (CI/CD), Google Cloud Run, Kubernetes, Terraform  
+- DevOps & Infrastructure: Docker, GitHub Actions (CI/CD), Google Cloud Run, Terraform
 
 ## Tasks needs to be addressed by order
 
--   [X] define the frequent questions and answers for IT support context 
+-   [X] define the frequent questions and answers for IT support context -> internal wiki created. Difined the frequent questions and answers.
 -   [X] just prompt engineering might be enough based on it, or fine-tune the model -> prompt engineering + RAG used
 -   [ ] deploy the model in /chatbot as simple MVP -> in progress
 
