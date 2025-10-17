@@ -1,7 +1,7 @@
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
-from main import get_query_embedding, get_embeddings
+from app.main import get_query_embedding, get_embeddings
 
 def test_get_embeddings():
     """

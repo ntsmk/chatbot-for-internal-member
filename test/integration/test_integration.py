@@ -1,7 +1,7 @@
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
-from main import answer_question
+from app.main import answer_question
 
 def test_answer_question_integration():
     """
