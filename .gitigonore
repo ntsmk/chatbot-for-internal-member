@@ -11,6 +11,7 @@ venv/
 
 # Environment variables
 .env
+terraform.tfvars
 
 # Databases / vector stores
 chroma_db/
