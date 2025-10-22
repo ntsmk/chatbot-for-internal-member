@@ -11,7 +11,11 @@ venv/
 
 # Environment variables
 .env
+
+# Terraform
 terraform.tfvars
+.terraform
+.terraform.lock.hcl
 
 # Databases / vector stores
 chroma_db/
