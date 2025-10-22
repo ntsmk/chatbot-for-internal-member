@@ -13,6 +13,6 @@ terraform {
 }
 
 provider "google" {
-    project = "<need to fill out later, GCP_PROJECT_ID>"
-    region = "fill out region later"
+    project = var.project_id
+    region = var.region
     }
