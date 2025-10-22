@@ -15,7 +15,7 @@
 - Backend Development: Python, Flask, RESTful APIs
 - AI Integration: Google Vertex AI (prompt engineering + RAG)
 - Testing: Pytest (unit & integration testing)
-- DevOps & Infrastructure: Docker, GitHub Actions (CI/CD), Google Cloud Run, Terraform
+- DevOps & Infrastructure: Docker, GitHub Actions (CI/CD), Terraform, Google Cloud Run
 
 ## Tasks needs to be addressed by order
 
