@@ -18,7 +18,7 @@
 - DevOps & Infrastructure: Docker, GitHub Actions (CI/CD), Terraform, Google Cloud Run
 
 ## Architecture diagram
-<img src="images/diagram_v1.png" alt="Alt text" width="600"/>
+<img src="images/diagram_v1.png" alt="Alt text" width="800"/>
 
 
 ## Tasks needs to be addressed by order
