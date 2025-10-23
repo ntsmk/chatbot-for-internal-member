@@ -1,0 +1,33 @@
+name: Terraform Infrastructure
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'terraform/**'   # only run when .tf files are changed
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+
+    env:
+      GOOGLE_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init
+        working-directory: terraform
+        run: terraform init
+
+      - name: Terraform Plan
+        working-directory: terraform
+        run: terraform plan
+
+      - name: Terraform Apply
+        working-directory: terraform
+        run: terraform apply -auto-approve
