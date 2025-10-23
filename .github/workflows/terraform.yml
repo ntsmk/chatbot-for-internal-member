@@ -23,6 +23,9 @@ jobs:
 
       - name: Terraform Plan
         working-directory: terraform
+        env:
+          TF_VAR_gcp_credentials: ${{ secrets.GCP_CREDENTIALS }}
+          TF_VAR_project_id: ${{ secrets.GCP_PROJECT_ID }}
         run: terraform plan
 
       - name: Terraform Apply
