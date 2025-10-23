@@ -6,6 +6,7 @@ resource "google_storage_bucket" "chatbot_bucket" {
 }
 
 # Artifact Registry for Docker images
-
+# todo add here
 
 # Cloud Run Service with Docker image URL
+# todo add here

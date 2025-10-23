@@ -10,9 +10,6 @@ jobs:
   terraform:
     runs-on: ubuntu-latest
 
-    env:
-      GOOGLE_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS }}
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -30,4 +27,6 @@ jobs:
 
       - name: Terraform Apply
         working-directory: terraform
+        env:
+          TF_VAR_gcp_credentials: ${{ secrets.GCP_CREDENTIALS }}
         run: terraform apply -auto-approve
