@@ -7,7 +7,7 @@
 
 ## Expected user of this system
 
-- Newer ish technician who needs fundamental knowledge?
+- Newer ish technician who needs fundamental knowledge
 - Provide step-by-step troubleshooting, link to internal KBs
 
 ## Tech Stack
@@ -23,7 +23,7 @@
 
 ## Tasks needs to be addressed by order
 
--   [X] define the frequent questions and answers for IT support context -> internal wiki created. Difined the frequent questions and answers.
+-   [X] define the frequent questions and answers for IT support context -> internal wiki created. Defined the frequent questions and answers.
 -   [X] just prompt engineering might be enough based on it, or fine-tune the model -> prompt engineering + RAG used
 -   [ ] deploy the model in /chatbot as simple MVP -> in progress
 
