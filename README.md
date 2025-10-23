@@ -17,6 +17,10 @@
 - Testing: Pytest (unit & integration testing)
 - DevOps & Infrastructure: Docker, GitHub Actions (CI/CD), Terraform, Google Cloud Run
 
+## Architecture diagram
+<img src="images/diagram_v1.png" alt="Alt text" width="400"/>
+
+
 ## Tasks needs to be addressed by order
 
 -   [X] define the frequent questions and answers for IT support context -> internal wiki created. Difined the frequent questions and answers.
