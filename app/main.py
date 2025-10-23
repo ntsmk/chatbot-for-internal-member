@@ -1,3 +1,6 @@
+# todo need to modify local setting to cloud setting (i.e. secrets, chromadb etc)
+# todo need to add html and flask to deploy
+# todo edit requirements.txt accordingly
 import os
 from dotenv import load_dotenv
 import chromadb
