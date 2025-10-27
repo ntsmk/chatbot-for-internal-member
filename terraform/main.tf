@@ -1,4 +1,5 @@
 # Creating Storage Bucket in GCP
+# it complains there is already existing bucket. I deleted it
 resource "google_storage_bucket" "chatbot_bucket" {
     name = "${var.project_id}-chatbot-bucket"
     location = "us-central1"
