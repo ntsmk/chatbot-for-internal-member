@@ -6,6 +6,7 @@ resource "google_storage_bucket" "chatbot_bucket" {
 }
 
 # Creating Artifact Registry for Docker images in GCP
+# todo need to run this remotely, and check if repository is created?
 resource "google_artifact_registry_repository" "chatbot_repo"{
     provider = google
     location = "us-central1"
