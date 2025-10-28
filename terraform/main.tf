@@ -8,7 +8,7 @@ resource "google_storage_bucket" "chatbot_bucket" {
 
 # Creating Artifact Registry for Docker images in GCP
 # todo need to run this remotely, and check if repository is created?
-# Got error, on GUI console, enabled it
+# Got error, on GUI console, enabled it manually
 # Also it complains there is already existing registry. I deleted it
 resource "google_artifact_registry_repository" "chatbot_repo"{
     provider = google
@@ -22,6 +22,7 @@ resource "google_artifact_registry_repository" "chatbot_repo"{
 # Creating Cloud Run Service with Docker image URL in GCP
 # todo add here
 # repository_id = <REPO_NAME>
+# Enabled Cloud Run Admin API manually
 resource "google_cloud_run_service" "chatbot_service" {
     name = "chatbot-service"
     location = "us-central1"
