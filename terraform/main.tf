@@ -20,9 +20,9 @@ resource "google_artifact_registry_repository" "chatbot_repo"{
 }
 
 # Creating Cloud Run Service with Docker image URL in GCP
-# todo add here
 # repository_id = <REPO_NAME>
 # Enabled Cloud Run Admin API manually
+# todo it gives error image is not found. need to push dockerfile to artifact registry first
 resource "google_cloud_run_service" "chatbot_service" {
     name = "chatbot-service"
     location = "us-central1"
