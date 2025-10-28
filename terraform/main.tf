@@ -21,3 +21,30 @@
 
 # Creating Cloud Run Service with Docker image URL in GCP
 # todo add here
+# repository_id = <REPO_NAME>
+resource "google_cloud_run_service" "chatbot_service" {
+    name = "chatbot-service"
+    location = "us-central1"
+
+    template {
+        spec{
+            containers{
+                # docker image in Articraft Registry
+                image = "us-central1-docker.pkg.dev/${var.project_id}/chatbot/chatbot:lastest"
+                ports { container_port = 8080 }
+            }
+        }
+    }
+
+    traffic{
+        percent = 100
+        latest_version = true
+    }
+}
+
+resource "google_cloud_run_service_iam_member" "public_access" {
+  location = google_cloud_run_service.chatbot_service.location
+  service  = google_cloud_run_service.chatbot_service.name
+  role     = "roles/run.invoker"
+  member   = "allUsers"
+}
