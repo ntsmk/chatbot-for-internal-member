@@ -38,7 +38,7 @@ resource "google_cloud_run_service" "chatbot_service" {
 
     traffic{
         percent = 100
-        latest_version = true
+        latest_revision = true
     }
 }
 
