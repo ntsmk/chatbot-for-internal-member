@@ -2,7 +2,6 @@
 # todo need to add html and flask to deploy
 # todo edit requirements.txt accordingly
 import os
-from dotenv import load_dotenv
 import chromadb
 
 # Future-proof imports - use Google AI SDK instead. Vertex AI SDK will be deprecated.
@@ -20,8 +19,6 @@ except ImportError:
     USE_NEW_SDK = False
     print("Using Vertex AI SDK (will be deprecated)")
 
-load_dotenv()
-
 if USE_NEW_SDK:
     # Google AI SDK setup
     genai.configure(api_key=os.getenv("GOOGLE_AI_API_KEY"))
@@ -35,6 +32,7 @@ else:
     chat_model = GenerativeModel("gemini-2.5-flash-lite-001")
     embedding_model = TextEmbeddingModel.from_pretrained("text-embedding-005")
 
+# todo need to use Supabase to deploy on cloud
 # ChromaDB setup
 chromadb_client = chromadb.PersistentClient(path="./chroma_db")
 faq_collection = chromadb_client.get_or_create_collection("faq_docs")
@@ -264,6 +262,7 @@ def main():
         print("-" * 40)
 
 
+# todo need to modify this to run in cloud
 if __name__ == "__main__":
     # Uncomment these lines when needed:
     # generate_embeddings()  # Run once when faq.json is updated
