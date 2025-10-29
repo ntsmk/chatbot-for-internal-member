@@ -13,6 +13,7 @@
 ## Tech Stack
 
 - Backend Development: Python, Flask, RESTful APIs
+- Supabase, Postgres for vector DB
 - AI Integration: Google Vertex AI (prompt engineering + RAG)
 - Testing: Pytest (unit & integration testing)
 - DevOps & Infrastructure: Docker, GitHub Actions (CI/CD), Terraform, Google Cloud Run
