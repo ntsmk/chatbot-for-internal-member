@@ -1,6 +1,5 @@
-# todo need to modify local setting to cloud setting (i.e. secrets, chromadb etc)
 # todo need to add html and flask to deploy
-# todo edit requirements.txt accordingly
+
 import os
 from supabase import create_client
 
@@ -279,8 +278,6 @@ def main():
         print(f"\nAnswer: {answer}")
         print("-" * 40)
 
-
-# todo need to modify this to run in cloud
 if __name__ == "__main__":
     # Uncomment these lines when needed:
     # generate_embeddings_supabase()  # Run once when faq.json is updated
