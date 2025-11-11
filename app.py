@@ -1,0 +1,1 @@
+# Flask application to connect templates and static
