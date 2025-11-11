@@ -2,7 +2,7 @@
 # todo need to add html and flask to deploy
 # todo edit requirements.txt accordingly
 import os
-import chromadb
+from supabase import create_client
 
 # Future-proof imports - use Google AI SDK instead. Vertex AI SDK will be deprecated.
 try:  # importing new SDK might fail
@@ -32,10 +32,10 @@ else:
     chat_model = GenerativeModel("gemini-2.5-flash-lite-001")
     embedding_model = TextEmbeddingModel.from_pretrained("text-embedding-005")
 
-# todo need to use Supabase to deploy on cloud
-# ChromaDB setup
-chromadb_client = chromadb.PersistentClient(path="./chroma_db")
-faq_collection = chromadb_client.get_or_create_collection("faq_docs")
+# Cloud version using Supabase vector. Not local ChromaDB
+url = os.getenv("SUPABASE_URL")
+key = os.getenv("SUPABASE_SERVICE_KEY")
+supabase = create_client(url, key)
 
 
 def get_embeddings(texts):
@@ -126,55 +126,60 @@ def get_query_embedding(query_text):
             return None
 
 
-def generate_embeddings():
+def generate_embeddings_supabase():
     """
-    Generate embeddings from FAQ JSON and store in ChromaDB
+    Generate embeddings from FAQ JSON and store in Supabase
     using get_embeddings inside of it because this is meant for fetching data from documents. Not user input.
     This function don't take input data because in this function's, it opens .json file as input
     and no retuning data because it adds to vector DB as consequence
     """
+
     import json
 
+    # just loading original file. no change compared to original generate_embeddings function
+    # faq.json need to be same folder.
     try:
-        with open("faq.json", "r", encoding='utf-8') as f:
+        with open("faq.json", "r", encoding="utf-8") as f:
             faqs = json.load(f)
-    except FileNotFoundError:
-        print("Error: faq.json file not found!")
-        return
-    except json.JSONDecodeError:
-        print("Error: Invalid JSON format in faq.json!")
+    # these except catching two different error type at once. FileNotFoundError and json.JSONDecodeError.
+    # json.JSONDecodeError is when the JSON file exists but format is invalid.
+    except (FileNotFoundError, json.JSONDecodeError) as e:
+        print(f"Error loading faq.json: {e}")
         return
 
     print(f"Processing {len(faqs)} FAQs...")
 
-    try:
-        # Get embeddings for the batch
-        texts = [faq["content"] for faq in faqs]
-        embeddings = get_embeddings(texts)
+    texts = [faq["content"] for faq in faqs]
+    embeddings = get_embeddings(texts)
 
-        if embeddings is None:
-            print(f"Failed to generate embeddings")
+    # this is also defensive edge case check
+    if embeddings is None:
+        print("Failed to generate embeddings.")
+        return
 
-        # Add to ChromaDB
-        for i, (faq, embedding) in enumerate(zip(faqs, embeddings)):
-            faq_collection.add(
-                ids=[str(i)],
-                documents=[faq["content"]],
-                metadatas=[{
-                    "title": faq.get("title", "No title"),
-                    "url": faq.get("url", "No URL"),
-                    "category": faq.get("category", "General")
-                }],
-                embeddings=[embedding]
-            )
+    # Add it to Supabase
+    # this is the main difference.
+    # Insert each embedding into Supabase
+    for faq, embedding in zip(faqs, embeddings):
+        # re-creating dictionary variable called "data", using original text data and converted embeddings
 
-    except Exception as e:
-        print(f"Error processing : {e}")
+        # the second attribute is the default value, it returns that when the key does not exist.
+        # this is how to use .get() function
+        data = {
+            "title": faq.get("title", "No title"),
+            "content": faq["content"],  # human language original text
+            "url": faq.get("url", "No URL"),
+            "category": faq.get("category", "General"),
+            "embedding": embedding,  # converted embedding
+        }
+        # specifying the table name (already created in supabase console), calling insert and using data variable just declared
+        # it kinda looks like SQLAlchemy because of .execute() function
+        supabase.table("faq_embeddings").insert(data).execute()
 
-    print("Successfully added all FAQs to Chroma vector db")
+    print("Successfully added all FAQs to Supabase vector table.")
 
 
-def answer_question(user_query):
+def answer_question_supabase(user_query):
     """
     Answer user question using RAG with proper embeddings. Core function in this system
     Takes user input as input, pass the data to get_query_embedding() function and then get embedding data from it
@@ -182,36 +187,49 @@ def answer_question(user_query):
     Returns gemini's response in human language.
     """
     try:
-        # Get query embedding
+        # this is same
+        # 1. Get query embedding
         query_vector = get_query_embedding(user_query)
-
         if query_vector is None:
             return "Error: Could not generate embedding for your query."
 
-        # Search the vector database
-        results = faq_collection.query(
-            query_embeddings=[query_vector],
-            n_results=3,  # Get top 3 results for better context
-            include=["documents", "metadatas", "distances"]
-        )
+        # this is different.
+        # rpc stands for Remote Procedure Call. It calls the function declared in SQL editor.
+        # rpc itself is not the function to search query. The defined function does.
+        # 2. Query Supabase vector search (match_faqs function)
+        response = supabase.rpc(
+            "match_faqs",
+            # must exist in Supabase SQL Editor # I added "SQL-function" note in practice folder for actual code and explanation
+            {  # these parameter will be sent to the SQL function "match_faqs"
+                "query_embedding": query_vector,  # user word converted as vector. Input words.
+                "match_threshold": 0.5,  # adjust based on testing
+                "match_count": 3
+            }
+        ).execute()  # without this .execute(), it does not send HTTP request
 
-        if not results["documents"] or not results["documents"][0]:
+        results = response.data
+
+        # same, defensive programming
+        # 3. Edge case: no matches
+        if not results or len(results) == 0:
             return "No relevant documentation found for your query."
 
-        # Check similarity threshold (lower distance = more similar)
-        best_distance = results["distances"][0][0] if results.get("distances") else 0
+        # 4. Pick the best result (highest similarity)
+        best = max(results, key=lambda x: x["similarity"])
+        # this is going through results item, and then by max(), choosing item based on  the most high "similarity"
+        # And key needs to be callable. That is why it needs to be using lambda to make it function
+        best_doc = best["content"]
+        best_title = best.get("title", "No title")
+        best_url = best.get("url", "No URL")
+        best_similarity = best.get("similarity", 0)
 
-        # If the best match is too distant, it's probably not relevant
-        if best_distance > 1.2:  # Adjust threshold as needed
+        # 5. Relevance check — if not similar enough
+        # this is actually different, if best_distance > 0.5 is the original form in chroma DB
+        if best_similarity < 0.5:
             return "Not found in the documentation."
 
-        # Get the best result
-        best_doc = results["documents"][0][0]
-        best_metadata = results["metadatas"][0][0]
-        best_title = best_metadata.get("title", "No title")
-        best_url = best_metadata.get("url", "No URL")
-
-        # Generate response using the LLM
+        # no change here
+        # 6.  Generate LLM response
         prompt = f"""You are a helpful IT support employee assisting with client IT issues.
 
         Your client asked: "{user_query}"
@@ -225,7 +243,7 @@ def answer_question(user_query):
         - Always give a clear and concise answer.
         - Begin your answer with the source URL.
         - Only provide the answer; do not ask follow-up questions or suggest further discussion.
-        - If the client's question does not closely match the FAQ content, Respond with exactly: "Not found in the documentation." 
+        - If the client's question does not closely match the FAQ content, respond with exactly: "Not found in the documentation." and stop providing the source URL.
         """
 
         response = chat_model.generate_content(prompt)
@@ -257,7 +275,7 @@ def main():
             continue
 
         print("\nProcessing your question...Just a moment.")
-        answer = answer_question(user_input)
+        answer = answer_question_supabase(user_input)
         print(f"\nAnswer: {answer}")
         print("-" * 40)
 
@@ -265,7 +283,7 @@ def main():
 # todo need to modify this to run in cloud
 if __name__ == "__main__":
     # Uncomment these lines when needed:
-    # generate_embeddings()  # Run once when faq.json is updated
+    # generate_embeddings_supabase()  # Run once when faq.json is updated
 
     # Start the interactive session
     main()
