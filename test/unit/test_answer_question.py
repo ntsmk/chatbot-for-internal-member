@@ -1,7 +1,7 @@
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
-from app.main import answer_question, faq_collection
+from app.chatbot import answer_question, faq_collection
 
 # passing monkeypatch to the function -> why? (the parameter) → is an instance of pytest’s MonkeyPatch fixture.
 # when calling monkeypatch.setattr(), it needs to access monkeypatch fixture.
