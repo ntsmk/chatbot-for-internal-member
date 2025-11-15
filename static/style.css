@@ -1,0 +1,31 @@
+body {
+    background-color: #000; /* black background */
+    color: #fff;         /* white text */
+    font-family: Consolas, monospace;
+}
+#chatbox {
+    width: 80%;
+    height: 400px;
+    border: 1px solid #fff;
+    padding: 10px;
+    overflow-y: auto;
+}
+#user-input {
+    width: 80%;
+    padding: 10px;
+    background-color: #111;
+    color: #fff;
+    border: 1px solid #fff;
+}
+#send-btn {
+    background-color: #000;
+    color: #fff;
+    padding: 10px 20px;
+}
+.bot-msg {
+    white-space: pre-wrap;
+    color: #fff;
+    background: #111;
+    padding: 8px;
+    border-radius: 6px;
+}
