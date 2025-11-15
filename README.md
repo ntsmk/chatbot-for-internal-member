@@ -34,4 +34,4 @@
 In development.
 
 ## Screenshot
-<img src="images/screenshot_v1.png" alt="Alt text" width="800"/>
+<img src="images/screenshot_v1.jpg" alt="Alt text" width="800"/>
