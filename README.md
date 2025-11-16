@@ -14,7 +14,7 @@
 
 - Backend Development: Python, Flask, RESTful APIs
 - Frondend Development: HTML5, CSS3, JavaScript (DOM manipulation, event handling, async fetch API)
-- Supabase, Postgres for vector DB
+- DB: Supabase, Postgres for vector DB
 - AI Integration: Google Vertex AI (prompt engineering + RAG)
 - Testing: Pytest (unit & integration testing)
 - DevOps & Infrastructure: Docker, GitHub Actions (CI/CD), Terraform, Google Cloud Run
