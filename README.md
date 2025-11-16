@@ -25,14 +25,10 @@
 
 ## Tasks needs to be addressed by order
 
--   [X] define the frequent questions and answers for IT support context -> internal wiki created. Defined the frequent questions and answers.
--   [X] just prompt engineering might be enough based on it, or fine-tune the model -> prompt engineering + RAG used
--   [ ] deploy the model in /chatbot as simple MVP -> in progress
+-   [X] Define the frequent questions and answers for IT support context -> internal wiki created. Defined the frequent questions and answers. -> Done
+-   [X] Just prompt engineering might be enough based on it, or fine-tune the model -> prompt engineering + RAG used -> Done
+-   [ ] Deploy the model in /chatbot as simple MVP -> In progress
 
-
-## Status
-
-In development.
 
 ## Screenshot
 <img src="images/screenshot_v1.jpg" alt="Alt text" width="800"/>
