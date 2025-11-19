@@ -2,6 +2,7 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 from app.chatbot import answer_question_supabase, faq_collection
+# todo need to modify red line part, faq_collection
 
 # passing monkeypatch to the function -> why? (the parameter) → is an instance of pytest’s MonkeyPatch fixture.
 # when calling monkeypatch.setattr(), it needs to access monkeypatch fixture.
@@ -64,5 +65,5 @@ def test_answer_question_not_found(monkeypatch):
     monkeypatch.setattr(faq_collection, "query", fake_query)
 
     # only assert. Testing if the function returns the desired output for edge case.
-    result = answer_question("Some random unrelated question")
+    result = answer_question_supabase("Some random unrelated question")
     assert "no relevant" in result.lower() or "not found" in result.lower()
