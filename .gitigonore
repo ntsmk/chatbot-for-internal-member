@@ -17,8 +17,6 @@ terraform.tfvars
 .terraform
 .terraform.lock.hcl
 
-# Databases / vector stores
-chroma_db/
 
 # OS files
 .DS_Store

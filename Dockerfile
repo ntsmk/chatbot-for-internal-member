@@ -1,17 +1,15 @@
-# Use an official Python image as base
 FROM python:3.10-slim
 
-# Set working directory
 WORKDIR /app
 
-# Copy the app files
-COPY . /app
+# Copy only requirements first — enables Docker build caching
+COPY requirements.txt /app/
 
-# Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Expose the port Flask runs on
+# Now copy the rest of the project
+COPY . /app
+
 EXPOSE 8080
 
-# Run the Flask app
 CMD ["python", "app.py"]
