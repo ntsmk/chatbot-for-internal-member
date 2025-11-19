@@ -125,60 +125,6 @@ def get_query_embedding(query_text):
             print(f"Error with Vertex AI query embedding: {e}")
             return None
 
-
-def generate_embeddings_supabase():
-    """
-    Generate embeddings from FAQ JSON and store in Supabase
-    using get_embeddings inside of it because this is meant for fetching data from documents. Not user input.
-    This function don't take input data because in this function's, it opens .json file as input
-    and no retuning data because it adds to vector DB as consequence
-    """
-
-    import json
-
-    # just loading original file. no change compared to original generate_embeddings function
-    # faq.json need to be same folder.
-    try:
-        with open("faq.json", "r", encoding="utf-8") as f:
-            faqs = json.load(f)
-    # these except catching two different error type at once. FileNotFoundError and json.JSONDecodeError.
-    # json.JSONDecodeError is when the JSON file exists but format is invalid.
-    except (FileNotFoundError, json.JSONDecodeError) as e:
-        print(f"Error loading faq.json: {e}")
-        return
-
-    print(f"Processing {len(faqs)} FAQs...")
-
-    texts = [faq["content"] for faq in faqs]
-    embeddings = get_embeddings(texts)
-
-    # this is also defensive edge case check
-    if embeddings is None:
-        print("Failed to generate embeddings.")
-        return
-
-    # Add it to Supabase
-    # this is the main difference.
-    # Insert each embedding into Supabase
-    for faq, embedding in zip(faqs, embeddings):
-        # re-creating dictionary variable called "data", using original text data and converted embeddings
-
-        # the second attribute is the default value, it returns that when the key does not exist.
-        # this is how to use .get() function
-        data = {
-            "title": faq.get("title", "No title"),
-            "content": faq["content"],  # human language original text
-            "url": faq.get("url", "No URL"),
-            "category": faq.get("category", "General"),
-            "embedding": embedding,  # converted embedding
-        }
-        # specifying the table name (already created in supabase console), calling insert and using data variable just declared
-        # it kinda looks like SQLAlchemy because of .execute() function
-        supabase.table("faq_embeddings").insert(data).execute()
-
-    print("Successfully added all FAQs to Supabase vector table.")
-
-
 def answer_question_supabase(user_query):
     """
     Answer user question using RAG with proper embeddings. Core function in this system
@@ -280,8 +226,4 @@ def main():
         print("-" * 40)
 
 if __name__ == "__main__":
-    # Uncomment these lines when needed:
-    # generate_embeddings_supabase()  # Run once when faq.json is updated
-
-    # Start the interactive session
     main()

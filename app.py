@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify
-from chatbot import answer_question
+from app.chatbot import answer_question_supabase
 
 # todo need to deploy this and make it work on GCP
 app = Flask(__name__)
@@ -18,7 +18,7 @@ def ask():
     user_query = data.get("message", "")
 
     # calling the main chatbot answering function, getting the answer
-    response = answer_question(user_query)
+    response = answer_question_supabase(user_query)
 
     # returning the answer in json format
     return jsonify({"reply": response})
