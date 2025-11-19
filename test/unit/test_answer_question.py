@@ -1,7 +1,7 @@
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
-from app.chatbot import answer_question, faq_collection
+from app.chatbot import answer_question_supabase, faq_collection
 
 # passing monkeypatch to the function -> why? (the parameter) → is an instance of pytest’s MonkeyPatch fixture.
 # when calling monkeypatch.setattr(), it needs to access monkeypatch fixture.
@@ -25,6 +25,7 @@ def test_answer_question_found(monkeypatch):
     # monkeypatch is replacing "main.get_query_embedding" as lambda q: [0.1, 0.2, 0.3],
     # def answer_question(user_query): is used in the function answer_question()
 
+    # todo need to modify red line part
     # 2 Fake DB query faq_collection as fake_query
     # creating fake function to place with.
     def fake_query(*args, **kwargs):
@@ -46,7 +47,7 @@ def test_answer_question_found(monkeypatch):
     # making fake response and replacing it.
 
     # 4 one assert
-    result = answer_question("How do I reset my password?") # calling real function answer_question() but anything used in this is a fake set up by monkeypatch
+    result = answer_question_supabase("How do I reset my password?") # calling real function answer_question() but anything used in this is a fake set up by monkeypatch
     assert "reset your password" in result.lower()
     # this is only assert in this function. it uses fake embedding, fake DB, and fake prompt to AI.
     # those are fake because used monkeypatch. With all external dependencies mocked using monkeypatch.

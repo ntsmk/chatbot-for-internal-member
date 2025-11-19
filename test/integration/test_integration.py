@@ -1,7 +1,7 @@
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
-from app.chatbot import answer_question
+from app.chatbot import answer_question_supabase
 
 def test_answer_question_integration():
     """
@@ -13,7 +13,7 @@ def test_answer_question_integration():
     query = "How do I reset my password?"
 
     # 2. Call the actual function without mocking anything
-    result = answer_question(query) # using the function directly that makes this test as integration test
+    result = answer_question_supabase(query) # using the function directly that makes this test as integration test
 
     # 3. Assertions
     assert result is not None  # function returns something
