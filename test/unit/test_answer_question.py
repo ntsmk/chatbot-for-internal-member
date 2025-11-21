@@ -2,7 +2,7 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 from app.chatbot import answer_question_supabase, faq_collection
-# todo need to modify red line part, faq_collection
+# todo need to modify red line part, faq_collection -> This is used in local chromaDB so need to modify it
 
 # passing monkeypatch to the function -> why? (the parameter) → is an instance of pytest’s MonkeyPatch fixture.
 # when calling monkeypatch.setattr(), it needs to access monkeypatch fixture.
@@ -16,7 +16,7 @@ def test_answer_question_found(monkeypatch):
     """
 
     # 1 Fake query embedding
-    monkeypatch.setattr("main.get_query_embedding", lambda q: [0.1, 0.2, 0.3])
+    monkeypatch.setattr("app.chatbot.get_query_embedding", lambda q: [0.1, 0.2, 0.3])
     # calling get_query_embedding to test, and then? need to remember how monkeypatch.setattr() works.
     # monkeypatch is not actual test. Just a setup. Replacing with fake data.
     # Any call like main.get_query_embedding("reset password") → will return [0.1, 0.2, 0.3]. Real function never touched
@@ -35,14 +35,14 @@ def test_answer_question_found(monkeypatch):
             "metadatas": [[{"title": "Password Reset", "url": "http://example.com"}]],
             "distances": [[0.5]],
         }
-    monkeypatch.setattr(faq_collection, "query", fake_query) # using this fake function defined
+    monkeypatch.setattr(faq_collection, "query", fake_query) # using this fake function defined # todo need to modify
     # in the original code, results = faq_collection.query() that is why "query" in the monkeypatch, the last part has to be callable that is why creating fake function
     # monkeypatch.setattr(target, real function or attribute name inside of target, callable function, replacing it with this.)
 
     # 3 Fake chat model response
     class FakeResponse: # this is just putting dummy text to "text" variable.
         text = "http://example.com You can reset your password via Settings." # faking simple attribute ".text"
-    monkeypatch.setattr("main.chat_model.generate_content", lambda prompt: FakeResponse()) # using fake class defined
+    monkeypatch.setattr("app.chatbot.generate_content", lambda prompt: FakeResponse()) # using fake class defined
     # "lambda prompt: FakeResponse()" what does this mean? -> anytime calling .chat_model.generate_content, returning fake class with simple text attribute
     # response = chat_model.generate_content(prompt) return response.text, this is used in answer_question(user_query)
     # making fake response and replacing it.
@@ -57,12 +57,12 @@ def test_answer_question_not_found(monkeypatch):
     """Check fallback behavior when nothing relevant"""
 
     # This is actually same as def test_answer_question_found(monkeypatch):, fake query embedding, using lambda because it needs to be callable.
-    monkeypatch.setattr("main.get_query_embedding", lambda q: [0.1, 0.2, 0.3])
+    monkeypatch.setattr("app.chatbot.get_query_embedding", lambda q: [0.1, 0.2, 0.3])
 
     # To make this unfound. Just faking empty input, same structure but just returning empty
     def fake_query(*args, **kwargs):
         return {"documents": [[]], "metadatas": [[]], "distances": [[]]}
-    monkeypatch.setattr(faq_collection, "query", fake_query)
+    monkeypatch.setattr(faq_collection, "query", fake_query) # todo need to modify
 
     # only assert. Testing if the function returns the desired output for edge case.
     result = answer_question_supabase("Some random unrelated question")
