@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 from app.chatbot import answer_question_supabase
 
-# todo need to deploy this and make it work on GCP
 app = Flask(__name__)
 
 @app.route("/")

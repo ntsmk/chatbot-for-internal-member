@@ -1,6 +1,3 @@
-# todo need to add html and flask to deploy
-# todo already set github secrets. need to create deploy.yml and link it to github secrets
-
 import os
 from supabase import create_client
 
