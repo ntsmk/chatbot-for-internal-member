@@ -31,3 +31,9 @@ jobs:
       - name: Push image
         run: |
           docker push us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/chatbot/chatbot:latest
+
+      - name: Trigger Terraform Deploy
+        uses: benc-uk/workflow-dispatch@v1
+        with:
+          workflow: Terraform Infrastructure
+          token: ${{ secrets.GITHUB_TOKEN }}
