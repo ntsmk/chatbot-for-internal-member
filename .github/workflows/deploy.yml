@@ -1,6 +1,0 @@
-# work in progress
-- name: Run Tests
-  run: pytest
-- name: Deploy
-  if: success()  # Only deploy if tests pass
-  run: ./deploy.sh
