@@ -1,11 +1,8 @@
-# todo put all deployment functions here
 name: Terraform Infrastructure
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'terraform/**'   # only run when .tf files are changed
+  repository_dispatch:
+    types: [terraform-deploy]
 
 jobs:
   terraform:

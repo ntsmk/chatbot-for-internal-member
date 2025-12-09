@@ -17,7 +17,17 @@ jobs:
       - name: Run Tests
         run: pytest
 
-build:
-  needs: test
-  if: success()
-  uses: ./.github/workflows/build-image.yml
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+
+    if: success()
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Trigger Docker Build Workflow
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          event-type: build-image
