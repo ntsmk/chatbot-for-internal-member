@@ -3,6 +3,9 @@ supabase
 google-generativeai
 google-cloud-aiplatform
 
+# Test
+pytest
+
 # Deployment
 flask
 gunicorn
