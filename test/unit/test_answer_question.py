@@ -15,7 +15,7 @@ def test_answer_question_found(monkeypatch):
     """
 
     # 1 Fake query embedding
-    monkeypatch.setattr("chatbot.get_query_embedding", lambda q: [0.01] * 768) # changed here to match Supabase’s expectation.
+    monkeypatch.setattr("app.chatbot.get_query_embedding", lambda q: [0.01] * 768) # changed here to match Supabase’s expectation.
 
     # Fake Supabase response
     # 1. Fake Supabase response data
@@ -59,7 +59,7 @@ def test_answer_question_not_found(monkeypatch):
     """Check fallback behavior when nothing relevant"""
 
     # This is actually same as def test_answer_question_found(monkeypatch):, fake query embedding, using lambda because it needs to be callable.
-    monkeypatch.setattr("chatbot.get_query_embedding", lambda q: [0.01] * 768) # changed here to match Supabase’s expectation.
+    monkeypatch.setattr("app.chatbot.get_query_embedding", lambda q: [0.01] * 768) # changed here to match Supabase’s expectation.
 
     # 1. Fake Supabase response data
     fake_data = [
