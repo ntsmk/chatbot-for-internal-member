@@ -14,26 +14,24 @@ def test_answer_question_found(monkeypatch):
     This is the example of mocking external API calls
     """
 
-    # 1 Fake query embedding
-    monkeypatch.setattr("app.chatbot.get_query_embedding", lambda q: [0.01] * 768) # changed here to match Supabase’s expectation.
+    # Mock embedding
+    monkeypatch.setattr(
+        "app.chatbot.get_query_embedding",
+        lambda q: [0.01] * 768
+    )
 
-    # Fake Supabase response
-    # 1. Fake Supabase response data
-    fake_data = [
-        {
-            "content": "Reset password instructions",
-            "title": "Password Reset",
-            "url": "http://example.com",
-            "similarity": 0.8
-        }
-    ]
+    # Mock Supabase
+    fake_data = [{
+        "content": "Reset password instructions",
+        "title": "Password Reset",
+        "url": "http://example.com",
+        "similarity": 0.8
+    }]
 
-    # 2. Fake object returned by .execute()
     class FakeRPCResult:
         def __init__(self, data):
             self.data = data
 
-    # 3. Fake object returned by supabase.rpc(...)
     class FakeRPC:
         def __init__(self, data):
             self._data = data
@@ -41,18 +39,23 @@ def test_answer_question_found(monkeypatch):
         def execute(self):
             return FakeRPCResult(self._data)
 
-    # 4. Monkeypatch supabase.rpc
     monkeypatch.setattr(
         supabase,
         "rpc",
-        lambda fn_name, params: FakeRPC(fake_data)
+        lambda fn, params: FakeRPC(fake_data)
     )
 
-    result = answer_question_supabase("How do I reset my password?") # calling real function answer_question() but anything used in this is a fake set up by monkeypatch
+    # Mock the LLM call
+    monkeypatch.setattr(
+        "app.chatbot.generate_answer",
+        lambda context, question: "You can reset your password using the reset link."
+    )
+
+    # Run test
+    result = answer_question_supabase("How do I reset my password?")
     print(result)
+
     assert "reset your password" in result.lower()
-    # this is only assert in this function. it uses fake embedding, fake DB, and fake prompt to AI.
-    # those are fake because used monkeypatch. With all external dependencies mocked using monkeypatch.
 
 # After I modified lambda q: [0.01] * 768, it passed. The issue was only supabase dimension part
 def test_answer_question_not_found(monkeypatch):
