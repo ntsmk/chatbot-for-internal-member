@@ -47,7 +47,7 @@ def test_answer_question_found(monkeypatch):
 
     # Mock the LLM call
     monkeypatch.setattr(
-        "app.chatbot.generate_answer",
+        "app.chatbot.answer_question_supabase",
         lambda context, question: "You can reset your password using the reset link."
     )
 
