@@ -14,19 +14,21 @@ def test_answer_question_found(monkeypatch):
     This is the example of mocking external API calls
     """
 
-    # Mock embedding
+    # Fake embedding
     monkeypatch.setattr(
         "app.chatbot.get_query_embedding",
         lambda q: [0.01] * 768
     )
 
-    # Mock Supabase
-    fake_data = [{
-        "content": "Reset password instructions",
-        "title": "Password Reset",
-        "url": "http://example.com",
-        "similarity": 0.8
-    }]
+    # Fake Supabase RPC
+    fake_data = [
+        {
+            "content": "You can reset your password in the portal.",
+            "title": "Password Reset",
+            "url": "http://example.com",
+            "similarity": 0.9,
+        }
+    ]
 
     class FakeRPCResult:
         def __init__(self, data):
@@ -40,20 +42,27 @@ def test_answer_question_found(monkeypatch):
             return FakeRPCResult(self._data)
 
     monkeypatch.setattr(
-        supabase,
-        "rpc",
+        "app.chatbot.supabase.rpc",
         lambda fn, params: FakeRPC(fake_data)
     )
 
-    # Mock the LLM call
+    # Fake Gemini response
+    class FakeLLMResponse:
+        text = "http://example.com\nYou can reset your password."
+
+    def fake_generate_content(prompt):
+        return FakeLLMResponse()
+
+    # THIS is the critical mock
     monkeypatch.setattr(
-        "app.chatbot.answer_question_supabase",
-        lambda context, question: "You can reset your password using the reset link."
+        "app.chatbot.chat_model.generate_content",
+        fake_generate_content
     )
 
-    # Run test
+    # Call real function
+    from app.chatbot import answer_question_supabase
+
     result = answer_question_supabase("How do I reset my password?")
-    print(result)
 
     assert "reset your password" in result.lower()
 
