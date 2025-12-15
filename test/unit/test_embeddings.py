@@ -6,7 +6,7 @@ from app.chatbot import get_query_embedding, get_embeddings
 def test_get_embeddings(monkeypatch):
     monkeypatch.setattr(
         "app.chatbot.get_embeddings",
-        lambda q: [[0.01] * 768 for _ in texts]
+        lambda q: [[0.01] * 768 for _ in texts] # because get_embeddings() returns a list of embeddings
     )
 
     from app.chatbot import get_embeddings
@@ -26,7 +26,7 @@ def test_get_embeddings(monkeypatch):
 def test_get_query_embedding(monkeypatch):
     monkeypatch.setattr(
         "app.chatbot.get_query_embedding",
-        lambda q: [0.02] * 768
+        lambda q: [0.01] * 768
     )
 
     from app.chatbot import get_query_embedding
