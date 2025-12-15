@@ -10,12 +10,12 @@ def test_get_embeddings(monkeypatch):
     This is testing get_embeddings(texts) function.
     """
 
-    def fake_get_embeddings(texts):
-        return [[0.01] * 768 for _ in texts]
+    # def fake_get_embeddings(texts):
+    #     return [[0.01] * 768 for _ in texts]
 
     monkeypatch.setattr(
         "app.chatbot.get_embeddings",
-        fake_get_embeddings
+        lambda q: [[0.01] * 768 for _ in texts]
     )
 
     from app.chatbot import get_embeddings
