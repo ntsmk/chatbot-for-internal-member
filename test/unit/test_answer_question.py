@@ -52,11 +52,9 @@ def test_answer_question_found(monkeypatch):
     )
 
     # 4. Call real function
-    # from app.chatbot import answer_question_supabase
     result = answer_question_supabase("How do I reset my password?")
     assert "reset your password" in result.lower()
 
-# After I modified lambda q: [0.01] * 768, it passed. The issue was only supabase dimension part
 def test_answer_question_not_found(monkeypatch):
 
     # 1. Fake embedding
@@ -71,8 +69,7 @@ def test_answer_question_not_found(monkeypatch):
             "content": "Reset password instructions",
             "title": "Password Reset",
             "url": "http://example.com",
-            "similarity": 0.2 # setting 0.2 as example fake dataset wiki, to test if this is rejected as 0.2 < 0.5
-            # this is not the point so changing it to 0.8
+            "similarity": 0.2
         }
     ]
 
