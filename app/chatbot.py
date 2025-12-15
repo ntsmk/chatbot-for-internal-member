@@ -189,7 +189,7 @@ def answer_question_supabase(user_query):
         - If the client's question does not closely match the FAQ content, respond with exactly: "Not found in the documentation." and stop providing the source URL.
         """
 
-        response = chat_model.generate_content(prompt)
+        response = chat_model.generate_content(prompt) # this is the function need to be mocked
         return response.text
 
     except Exception as e:
