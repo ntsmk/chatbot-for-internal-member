@@ -92,6 +92,9 @@ def test_answer_question_not_found(monkeypatch):
 
     # todo why this pass without faking Gemini response unlike def test_answer_question_found
     # "similarity": 0.2 is not 0.9 in test_answer_question_found, that is why .generate_content not called first off.
+    #        if best_similarity < 0.5:
+    #        return "Not found in the documentation."
+    # this is in chatbot.py answer_question_supabase function. This is why assert "not found" in result.lower() pass.
 
     # 4. Call real function
     result = answer_question_supabase("Some random unrelated question")
