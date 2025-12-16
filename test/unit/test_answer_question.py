@@ -69,7 +69,7 @@ def test_answer_question_not_found(monkeypatch):
             "content": "Reset password instructions",
             "title": "Password Reset",
             "url": "http://example.com",
-            "similarity": 0.2
+            "similarity": 0.2 # this making irrelevant to make happen "not found"
         }
     ]
 
@@ -90,12 +90,12 @@ def test_answer_question_not_found(monkeypatch):
         lambda fn_name, params: FakeRPC(fake_data)
     )
 
-    # todo why this pass without faking Gemini response unlike def test_answer_question_found
+    # why this pass without faking Gemini response unlike def test_answer_question_found
     # "similarity": 0.2 is not 0.9 in test_answer_question_found, that is why .generate_content not called first off.
     #        if best_similarity < 0.5:
     #        return "Not found in the documentation."
     # this is in chatbot.py answer_question_supabase function. This is why assert "not found" in result.lower() pass.
 
-    # 4. Call real function
+    # 4. Call real function but it does not hit gemini real API because of low similarity, skipping Fake Gemini response part
     result = answer_question_supabase("Some random unrelated question")
     assert "no relevant" in result.lower() or "not found" in result.lower()
