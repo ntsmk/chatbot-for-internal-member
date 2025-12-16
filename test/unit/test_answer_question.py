@@ -90,6 +90,8 @@ def test_answer_question_not_found(monkeypatch):
         lambda fn_name, params: FakeRPC(fake_data)
     )
 
+    # todo why this pass without faking Gemini response unlike def test_answer_question_found
+
     # 4. Call real function
     result = answer_question_supabase("Some random unrelated question")
     assert "no relevant" in result.lower() or "not found" in result.lower()
