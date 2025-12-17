@@ -5,7 +5,7 @@ from app.chatbot import answer_question_supabase, supabase
 
 def test_answer_question_found(monkeypatch):
 
-    # todo need to comprehend
+    # todo need to comprehend, then move to integration test debug
     # 1. Fake embedding
     monkeypatch.setattr(
         "app.chatbot.get_query_embedding",
@@ -35,7 +35,7 @@ def test_answer_question_found(monkeypatch):
 
     monkeypatch.setattr(
         "app.chatbot.supabase.rpc",
-        lambda fn, params: FakeRPC(fake_data)
+        lambda fn_name, params: FakeRPC(fake_data)
     )
 
     # 3. Fake Gemini response
@@ -85,8 +85,7 @@ def test_answer_question_not_found(monkeypatch):
             return FakeRPCResult(self._data)
 
     monkeypatch.setattr(
-        supabase,
-        "rpc",
+        "app.chatbot.supabase.rpc",
         lambda fn_name, params: FakeRPC(fake_data)
     )
 
