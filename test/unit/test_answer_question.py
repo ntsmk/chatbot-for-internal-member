@@ -41,11 +41,12 @@ def test_answer_question_found(monkeypatch):
     # 3. Fake Gemini response
     class FakeLLMResponse:
         text = "http://example.com\nYou can reset your password."
+        # why it needs to be class? -> because it needs to return response.text, the attribute ".text"
 
     def fake_generate_content(prompt):
         return FakeLLMResponse()
 
-    # THIS is the critical mock
+    # THIS is the critical mock, because inside of answer_question_supabase, this function exists and cant use real API
     monkeypatch.setattr(
         "app.chatbot.chat_model.generate_content",
         fake_generate_content
@@ -95,6 +96,6 @@ def test_answer_question_not_found(monkeypatch):
     #        return "Not found in the documentation."
     # this is in chatbot.py answer_question_supabase function. This is why assert "not found" in result.lower() pass.
 
-    # 4. Call real function but it does not hit gemini real API because of low similarity, skipping Fake Gemini response part
+    # 4. Call real function, but it does not hit gemini real API because of low similarity, skipping Fake Gemini response part
     result = answer_question_supabase("Some random unrelated question")
     assert "no relevant" in result.lower() or "not found" in result.lower()
