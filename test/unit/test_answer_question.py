@@ -5,7 +5,6 @@ from app.chatbot import answer_question_supabase, supabase
 
 def test_answer_question_found(monkeypatch):
 
-    # todo need to comprehend, then move to integration test debug
     # 1. Fake embedding
     monkeypatch.setattr(
         "app.chatbot.get_query_embedding",
@@ -38,6 +37,7 @@ def test_answer_question_found(monkeypatch):
         lambda fn_name, params: FakeRPC(fake_data)
     )
 
+    # todo need to comprehend, then move to integration test debug
     # 3. Fake Gemini response
     class FakeLLMResponse:
         text = "http://example.com\nYou can reset your password."
