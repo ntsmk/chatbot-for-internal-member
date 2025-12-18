@@ -37,11 +37,10 @@ def test_answer_question_found(monkeypatch):
         lambda fn_name, params: FakeRPC(fake_data)
     )
 
-    # todo need to comprehend, then move to integration test debug
     # 3. Fake Gemini response
     class FakeLLMResponse:
         text = "http://example.com\nYou can reset your password."
-        # why it needs to be class? -> because it needs to return response.text, the attribute ".text"
+        # why it needs to be class? -> because it needs to return response.text, the attribute ".text", following the production code.
 
     def fake_generate_content(prompt):
         return FakeLLMResponse()
