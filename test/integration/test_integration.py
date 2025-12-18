@@ -13,10 +13,11 @@ def test_answer_question_integration():
     query = "How do I reset my password?"
 
     # 2. Call the actual function without mocking anything
-    result = answer_question_supabase(query) # using the function directly that makes this test as integration test
+    result = answer_question_supabase(query)
 
     # 3. Assertions
     assert result is not None  # function returns something
     assert len(result) > 0  # result is not empty
     assert isinstance(result, str)  # result should be a string
     assert "password" in result.lower()  # expected keyword in the response
+    # todo assert 'password' in 'error: could not generate embedding for your query.' so this is embedding error, not reaching to LLM.
