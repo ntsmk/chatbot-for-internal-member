@@ -30,9 +30,15 @@ else:
     embedding_model = TextEmbeddingModel.from_pretrained("text-embedding-005")
 
 # Cloud version using Supabase vector. Not local ChromaDB
-url = os.getenv("SUPABASE_URL")
-key = os.getenv("SUPABASE_SERVICE_KEY")
-supabase = create_client(url, key)
+def get_supabase():
+    url = os.getenv("SUPABASE_URL")
+    key = os.getenv("SUPABASE_SERVICE_KEY")
+
+    if not url or not key:
+        raise RuntimeError("SUPABASE_URL and SUPABASE_SERVICE_KEY must be set")
+
+    return create_client(url, key)
+
 
 
 def get_embeddings(texts):
@@ -140,6 +146,7 @@ def answer_question_supabase(user_query):
         # rpc stands for Remote Procedure Call. It calls the function declared in SQL editor.
         # rpc itself is not the function to search query. The defined function does.
         # 2. Query Supabase vector search (match_faqs function)
+        supabase = get_supabase()
         response = supabase.rpc(
             "match_faqs",
             # must exist in Supabase SQL Editor # I added "SQL-function" note in practice folder for actual code and explanation
