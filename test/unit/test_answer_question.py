@@ -34,7 +34,7 @@ def test_answer_question_found(monkeypatch):
             return FakeRPCResult(self._data)
 
     monkeypatch.setattr(
-        app.chatbot.supabase,
+        chatbot.supabase,
         "rpc",
         lambda fn_name, params: FakeRPC(fake_data)
     )
@@ -49,7 +49,7 @@ def test_answer_question_found(monkeypatch):
 
     # THIS is the critical mock, because inside of answer_question_supabase, this function exists and cant use real API
     monkeypatch.setattr(
-        "app.chatbot.chat_model.generate_content",
+        "chatbot.chat_model.generate_content",
         fake_generate_content
     )
 
@@ -61,7 +61,7 @@ def test_answer_question_not_found(monkeypatch):
 
     # 1. Fake embedding
     monkeypatch.setattr(
-        "app.chatbot.get_query_embedding",
+        "chatbot.get_query_embedding",
         lambda q: [0.01] * 768
     )
 
