@@ -56,7 +56,8 @@ def test_answer_question_found(monkeypatch):
 
     # THIS is the critical mock, because inside of answer_question_supabase, this function exists and cant use real API
     monkeypatch.setattr(
-        "chatbot.chat_model.generate_content",
+        chatbot.chat_model,
+        "generate_content",
         fake_generate_content
     )
 
