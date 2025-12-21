@@ -39,8 +39,6 @@ def get_supabase():
 
     return create_client(url, key)
 
-
-
 def get_embeddings(texts):
     """
     Get embeddings for a list of texts using the appropriate SDK.
