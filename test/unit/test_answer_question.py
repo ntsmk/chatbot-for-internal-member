@@ -1,6 +1,7 @@
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
+import app.chatbot as chatbot
 from app.chatbot import answer_question_supabase
 
 def test_answer_question_found(monkeypatch):
@@ -33,7 +34,8 @@ def test_answer_question_found(monkeypatch):
             return FakeRPCResult(self._data)
 
     monkeypatch.setattr(
-        "app.chatbot.supabase.rpc",
+        app.chatbot.supabase,
+        "rpc",
         lambda fn_name, params: FakeRPC(fake_data)
     )
 
@@ -85,7 +87,8 @@ def test_answer_question_not_found(monkeypatch):
             return FakeRPCResult(self._data)
 
     monkeypatch.setattr(
-        "app.chatbot.supabase.rpc",
+        chatbot.supabase,
+        "rpc",
         lambda fn_name, params: FakeRPC(fake_data)
     )
 
