@@ -33,10 +33,17 @@ def test_answer_question_found(monkeypatch):
         def execute(self):
             return FakeRPCResult(self._data)
 
+    class FakeSupabase:
+        def __init__(self, data):
+            self._data = data
+
+        def rpc(self, fn_name, params):
+            return FakeRPC(self._data)
+
     monkeypatch.setattr(
-        chatbot.supabase,
-        "rpc",
-        lambda fn_name, params: FakeRPC(fake_data)
+        chatbot,
+        "get_supabase",
+        lambda: FakeSupabase(fake_data)
     )
 
     # 3. Fake Gemini response
@@ -86,10 +93,17 @@ def test_answer_question_not_found(monkeypatch):
         def execute(self):
             return FakeRPCResult(self._data)
 
+    class FakeSupabase:
+        def __init__(self, data):
+            self._data = data
+
+        def rpc(self, fn_name, params):
+            return FakeRPC(self._data)
+
     monkeypatch.setattr(
-        chatbot.supabase,
-        "rpc",
-        lambda fn_name, params: FakeRPC(fake_data)
+        chatbot,
+        "get_supabase",
+        lambda: FakeSupabase(fake_data)
     )
 
     # why this pass without faking Gemini response unlike def test_answer_question_found
