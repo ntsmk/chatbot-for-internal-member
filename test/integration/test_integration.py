@@ -6,6 +6,7 @@ from app.chatbot import answer_question_supabase
 
 pytestmark = pytest.mark.integration
 
+# because no .env file set locally nor No shell export
 @pytest.mark.skipif(
     not os.getenv("GOOGLE_AI_API_KEY"),
     reason="GOOGLE_AI_API_KEY not set"

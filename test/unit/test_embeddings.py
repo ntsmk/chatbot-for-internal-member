@@ -8,7 +8,7 @@ def test_get_embeddings(monkeypatch):
         lambda q: [[0.01] * 768 for _ in texts] # because get_embeddings() returns a list of embeddings
     )
 
-    from app.chatbot import get_embeddings
+    from app.chatbot import get_embeddings # this has to be after monkeypatch.setattr, because it needs to be patched one, not original one
 
     texts = ["How to login?", "How to install printer driver?"]
     embeddings = get_embeddings(texts)

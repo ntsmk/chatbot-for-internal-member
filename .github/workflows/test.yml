@@ -33,5 +33,5 @@ jobs:
       - name: Trigger Docker Build Workflow
         uses: peter-evans/repository-dispatch@v3
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}  # need to check this
           event-type: build-image
