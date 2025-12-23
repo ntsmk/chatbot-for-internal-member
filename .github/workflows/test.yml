@@ -33,5 +33,5 @@ jobs:
       - name: Trigger Docker Build Workflow
         uses: peter-evans/repository-dispatch@v3
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}  # temporary access token that GitHub automatically creates
+          token: ${{ secrets.GITHUB_TOKEN }}  # temporary access token that GitHub automatically creates. The token exists automatically, but actions don’t get it unless you pass it explicitly
           event-type: build-image
