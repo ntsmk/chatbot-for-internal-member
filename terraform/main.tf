@@ -29,7 +29,7 @@ resource "google_cloud_run_service" "chatbot_service" {
         spec{
             containers{
                 # docker image in Articraft Registry
-                image = "us-central1-docker.pkg.dev/${var.project_id}/chatbot/chatbot:lastest"
+                image = "us-central1-docker.pkg.dev/${var.project_id}/chatbot/chatbot:latest" # lastest to latest
                 ports { container_port = 8080 }
             }
         }
