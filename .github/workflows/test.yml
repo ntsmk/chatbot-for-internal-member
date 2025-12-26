@@ -1,40 +1,37 @@
+# CI Pipeline
 name: CI Pipeline
 
 on:
   push:
     branches: [main]
 
-permissions:
-  contents: write
-
 jobs:
   test:
     runs-on: ubuntu-latest
-
-    env:
-      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-      SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
-
     steps:
       - uses: actions/checkout@v3
+      - run: pip install -r requirements.txt
+      - run: pytest -m "not integration"
 
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-
-      - name: Run Tests
-        run: pytest -m "not integration"
-
-  build:
+  terraform:
     needs: test
     runs-on: ubuntu-latest
-
-    if: success()
-
     steps:
       - uses: actions/checkout@v3
+      - uses: hashicorp/setup-terraform@v3
 
-      - name: Trigger Docker Build Workflow
+      - name: Terraform Init
+        working-directory: terraform
+        run: terraform init
+
+      - name: Terraform Apply (infra only)
+        working-directory: terraform
+        env:
+          TF_VAR_project_id: ${{ secrets.GCP_PROJECT_ID }}
+        run: terraform apply -auto-approve
+
+      - name: Trigger Docker Build
         uses: peter-evans/repository-dispatch@v3
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}  # temporary access token that GitHub automatically creates. The token exists automatically, but actions don’t get it unless you pass it explicitly
+          token: ${{ secrets.GITHUB_TOKEN }}
           event-type: build-image
