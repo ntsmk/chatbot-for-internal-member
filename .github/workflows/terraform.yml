@@ -26,7 +26,7 @@ jobs:
           TF_VAR_project_id: ${{ secrets.GCP_PROJECT_ID }}
         run: terraform plan
 
-      - name: Terraform Apply # getting problem here, not error but keep processing
+      - name: Terraform Apply # getting problem here, not error but keep processing, deleted and trying again
         working-directory: terraform
         env:
           TF_VAR_gcp_credentials: ${{ secrets.GCP_CREDENTIALS }}
