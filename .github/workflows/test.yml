@@ -1,5 +1,5 @@
-# CI Pipeline
-name: CI Pipeline
+# CI Pipeline (Test only)
+name: CI
 
 on:
   push:
@@ -12,26 +12,3 @@ jobs:
       - uses: actions/checkout@v3
       - run: pip install -r requirements.txt
       - run: pytest -m "not integration"
-
-  terraform:
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: hashicorp/setup-terraform@v3
-
-      - name: Terraform Init
-        working-directory: terraform
-        run: terraform init
-
-      - name: Terraform Apply (infra only)
-        working-directory: terraform
-        env:
-          TF_VAR_project_id: ${{ secrets.GCP_PROJECT_ID }}
-        run: terraform apply -auto-approve
-
-      - name: Trigger Docker Build
-        uses: peter-evans/repository-dispatch@v3
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          event-type: build-image
