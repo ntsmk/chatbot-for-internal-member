@@ -1,34 +1,22 @@
 name: Terraform Infrastructure
 
 on:
-  repository_dispatch:
-    types: [terraform-deploy]
+  push:
+    branches: [main]
 
 jobs:
   terraform:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v3
+      - uses: actions/checkout@v3
+      - uses: hashicorp/setup-terraform@v3
 
       - name: Terraform Init
         working-directory: terraform
         run: terraform init
 
-      - name: Terraform Plan
+      - name: Terraform Apply (infra only)
         working-directory: terraform
         env:
-          TF_VAR_gcp_credentials: ${{ secrets.GCP_CREDENTIALS }}
-          TF_VAR_project_id: ${{ secrets.GCP_PROJECT_ID }}
-        run: terraform plan
-
-      - name: Terraform Apply # getting problem here, not error but keep processing, deleted and trying again
-        working-directory: terraform
-        env:
-          TF_VAR_gcp_credentials: ${{ secrets.GCP_CREDENTIALS }}
           TF_VAR_project_id: ${{ secrets.GCP_PROJECT_ID }}
         run: terraform apply -auto-approve
