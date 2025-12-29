@@ -23,7 +23,7 @@ resource "google_artifact_registry_repository" "chatbot_repo"{
 # Enabled Cloud Run Admin API manually
 resource "google_cloud_run_service" "chatbot_service" {
   name     = "chatbot"
-  location = var.region
+  location = "us-central1"
 
   template {
     spec {
