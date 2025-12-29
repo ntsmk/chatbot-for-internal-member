@@ -39,9 +39,9 @@ resource "google_cloud_run_service" "chatbot_service" {
   }
 }
 
-resource "google_cloud_run_service_iam_member" "public_access" {
-  location = google_cloud_run_service.chatbot_service.location
-  service  = google_cloud_run_service.chatbot_service.name
+resource "google_cloud_run_v2_service_iam_member" "public_access" {
+  location = "us-central1"
+  name     = google_cloud_run_service.chatbot_service.name
   role     = "roles/run.invoker"
   member   = "allUsers"
 }
