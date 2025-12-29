@@ -22,23 +22,21 @@ resource "google_artifact_registry_repository" "chatbot_repo"{
 # repository_id = <REPO_NAME>
 # Enabled Cloud Run Admin API manually
 resource "google_cloud_run_service" "chatbot_service" {
-    name = "chatbot-service"
-    location = "us-central1"
+  name     = "chatbot"
+  location = var.region
 
-    template {
-        spec{
-            containers{
-                # docker image in Articraft Registry
-                image = "us-central1-docker.pkg.dev/${var.project_id}/chatbot/chatbot:latest" # lastest to latest
-                ports { container_port = 8080 }
-            }
-        }
+  template {
+    spec {
+      containers {
+        image = "gcr.io/cloudrun/hello" # placeholder
+      }
     }
+  }
 
-    traffic{
-        percent = 100
-        latest_revision = true
-    }
+  traffic {
+    percent         = 100
+    latest_revision = true
+  }
 }
 
 resource "google_cloud_run_service_iam_member" "public_access" {
