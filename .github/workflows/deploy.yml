@@ -1,21 +1,50 @@
-name: Build and Push Docker Image
+name: Deploy Chatbot to Cloud Run
 
 on:
-  repository_dispatch:
-    types: [build-image]
+  push:
+    branches: [main]
+    paths:
+      - "app/**"
+      - "Dockerfile"
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
 
-      - uses: google-github-actions/auth@v2
+    steps:
+      # 1. Checkout code
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # 2. Authenticate to Google Cloud
+      - name: Authenticate to GCP
+        uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.GCP_CREDENTIALS }}
 
-      - run: gcloud auth configure-docker us-central1-docker.pkg.dev
+      # 3. Configure Docker to push to Artifact Registry
+      - name: Configure Docker for Artifact Registry
+        run: |
+          gcloud auth configure-docker us-central1-docker.pkg.dev
 
-      - run: |
-          docker build -t us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/chatbot/chatbot:latest .
-          docker push us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/chatbot/chatbot:latest
+      # 4. Build Docker image
+      - name: Build Docker image
+        run: |
+          docker build \
+            -t us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/chatbot/chatbot:latest \
+            .
+
+      # 5. Push Docker image
+      - name: Push Docker image
+        run: |
+          docker push \
+            us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/chatbot/chatbot:latest
+
+      # 6. Deploy to Cloud Run (overwrite placeholder image)
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy chatbot \
+            --image us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/chatbot/chatbot:latest \
+            --region us-central1 \
+            --platform managed \
+            --allow-unauthenticated
