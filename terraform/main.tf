@@ -38,3 +38,10 @@ resource "google_cloud_run_service" "chatbot_service" {
     latest_revision = true
   }
 }
+
+resource "google_cloud_run_service_iam_member" "public_access" {
+  location = google_cloud_run_service.chatbot_service.location
+  service  = google_cloud_run_service.chatbot_service.name
+  role     = "roles/run.invoker"
+  member   = "allUsers"
+}
