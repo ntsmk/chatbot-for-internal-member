@@ -1,4 +1,4 @@
-Creating Storage Bucket in GCP
+#Creating Storage Bucket in GCP
 resource "google_storage_bucket" "chatbot_bucket" {
     name = "${var.project_id}-chatbot-bucket"
     location = "us-central1"
