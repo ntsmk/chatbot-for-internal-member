@@ -22,7 +22,7 @@ async function sendMessage() {
     const data = await response.json();
 
     // Show bot message
-        chatbox.innerHTML += `<p class="bot-msg"><strong>Jason bot:</strong> ${data.reply}</p>`;
+        chatbox.innerHTML += `<p class="bot-msg"><strong>Bot:</strong> ${data.reply}</p>`;
         chatbox.scrollTop = chatbox.scrollHeight;
 }
 
