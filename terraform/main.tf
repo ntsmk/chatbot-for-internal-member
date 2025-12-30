@@ -18,24 +18,3 @@ resource "google_artifact_registry_repository" "chatbot_repo"{
 
 }
 
-# Creating Cloud Run Service with Docker image URL in GCP
-# repository_id = <REPO_NAME>
-# Enabled Cloud Run Admin API manually
-resource "google_cloud_run_service" "chatbot_service" {
-  name     = "chatbot"
-  location = "us-central1"
-
-  template {
-    spec {
-      containers {
-        image = "gcr.io/cloudrun/hello" # placeholder
-      }
-    }
-  }
-
-  traffic {
-    percent         = 100
-    latest_revision = true
-  }
-}
-
