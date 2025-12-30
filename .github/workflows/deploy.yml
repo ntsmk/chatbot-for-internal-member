@@ -20,6 +20,5 @@ jobs:
           gcloud run deploy chatbot-service \
             --image us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/chatbot/chatbot:latest \
             --region us-central1 \
-            --platform managed \
-            --allow-unauthenticated \
-            --port 8080
+            --member="allUsers" \
+            --role="roles/run.invoker"
