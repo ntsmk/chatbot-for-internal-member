@@ -1,8 +1,9 @@
 name: Build and Push Docker Image
 
 on:
-  push:
-    branches: [main]
+  workflow_run:
+    workflows: ["CI Pipeline (Test only)"]
+    types: [completed]
 
 jobs:
   build:
