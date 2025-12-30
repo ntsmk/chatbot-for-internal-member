@@ -12,6 +12,5 @@ resource "google_artifact_registry_repository" "chatbot_repo"{
     repository_id = "chatbot"
     description = "Docker repository for chatbot app"
     format = "DOCKER"
-
 }
 
