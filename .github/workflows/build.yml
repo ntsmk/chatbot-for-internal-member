@@ -2,7 +2,7 @@ name: Build and Push Docker Image
 
 on:
   workflow_run:
-    workflows: ["CI Pipeline (Test only)"]
+    workflows: ["Terraform Infrastructure"]
     types: [completed]
 
 jobs:
