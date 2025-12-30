@@ -20,5 +20,12 @@ jobs:
           gcloud run deploy chatbot-service \
             --image us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/chatbot/chatbot:latest \
             --region us-central1 \
+            --platform managed \
+            --quiet
+
+      - name: Allow unauthenticated access
+        run: |
+          gcloud run services add-iam-policy-binding chatbot-service \
+            --region us-central1 \
             --member="allUsers" \
             --role="roles/run.invoker"
