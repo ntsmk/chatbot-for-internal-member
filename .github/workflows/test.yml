@@ -1,5 +1,4 @@
-# CI Pipeline (Test only)
-name: CI
+name: CI Pipeline (Test only)
 
 on:
   push:
