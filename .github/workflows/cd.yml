@@ -1,12 +1,12 @@
-name: Build and Push Docker Image / Deploy to Cloud Run
+name: Build and Deploy
 
 on:
   workflow_run:
-    workflows: ["CI Pipeline (Test only)"]
+    workflows: ["CI Pipeline"]
     types: [completed]
 
 jobs:
-  build:
+  build-deploy:
     runs-on: ubuntu-latest
 
     steps:
