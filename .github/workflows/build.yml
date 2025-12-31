@@ -1,4 +1,4 @@
-name: Build and Push Docker Image
+name: Build and Push Docker Image / Deploy to Cloud Run
 
 on:
   workflow_run:
@@ -28,3 +28,11 @@ jobs:
       - name: Push Docker image
         run: |
           docker push us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/chatbot/chatbot:latest
+
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy chatbot-service \
+            --image us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/chatbot/chatbot:latest \
+            --region us-central1 \
+            --platform managed \
+            --quiet
