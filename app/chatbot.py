@@ -18,13 +18,13 @@ except ImportError:
 
 if USE_NEW_SDK:
     # Google AI SDK setup
-    genai.configure(api_key=os.getenv("GOOGLE_AI_API_KEY"))
+    genai.configure(api_key=os.getenv("GOOGLE_AI_API_KEY")) # todo need to modify this to get API working
     chat_model = genai.GenerativeModel("gemini-2.5-flash-lite")
     # Set up embedding model
     EMBEDDING_MODEL = "gemini-embedding-001"
 else:
     # Vertex AI SDK setup
-    PROJECT_ID = os.getenv("PROJECT_ID")
+    PROJECT_ID = os.getenv("PROJECT_ID") # todo need to modify this to get API working
     vertexai.init(project=PROJECT_ID, location="us-central1")
     chat_model = GenerativeModel("gemini-2.5-flash-lite-001")
     embedding_model = TextEmbeddingModel.from_pretrained("text-embedding-005")
