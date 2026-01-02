@@ -35,7 +35,7 @@ jobs:
             --image us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/chatbot/chatbot:latest \
             --region us-central1 \
             --platform managed \
-            --quiet
+            --quiet \
             --set-env-vars \
               GOOGLE_AI_API_KEY=${{ secrets.GOOGLE_AI_API_KEY }},\
               SUPABASE_URL=${{ secrets.SUPABASE_URL }},\
