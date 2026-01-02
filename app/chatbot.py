@@ -24,15 +24,15 @@ if USE_NEW_SDK:
     EMBEDDING_MODEL = "gemini-embedding-001"
 else:
     # Vertex AI SDK setup
-    PROJECT_ID = os.getenv("PROJECT_ID") # todo need to modify this to get API working
+    PROJECT_ID = os.getenv("GCP_PROJECT_ID")
     vertexai.init(project=PROJECT_ID, location="us-central1")
     chat_model = GenerativeModel("gemini-2.5-flash-lite-001")
     embedding_model = TextEmbeddingModel.from_pretrained("text-embedding-005")
 
 # Cloud version using Supabase vector. Not local ChromaDB
 def get_supabase():
-    url = os.getenv("SUPABASE_URL")
-    key = os.getenv("SUPABASE_SERVICE_KEY")
+    url = os.getenv("SUPABASE_URL") # todo need to modify this to get API working
+    key = os.getenv("SUPABASE_SERVICE_KEY") # todo need to modify this to get API working
 
     if not url or not key:
         raise RuntimeError("SUPABASE_URL and SUPABASE_SERVICE_KEY must be set")
