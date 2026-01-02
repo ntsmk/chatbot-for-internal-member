@@ -36,5 +36,6 @@ jobs:
             --region us-central1 \
             --platform managed \
             --quiet \
-            --set-env-vars \
-              GOOGLE_AI_API_KEY=${{ secrets.GOOGLE_AI_API_KEY }}, SUPABASE_URL=${{ secrets.SUPABASE_URL }}, SUPABASE_SERVICE_KEY=${{ secrets.SUPABASE_SERVICE_KEY }}
+            --set-env-vars GOOGLE_AI_API_KEY=${{ secrets.GOOGLE_AI_API_KEY }} \
+            --set-env-vars SUPABASE_URL=${{ secrets.SUPABASE_URL }} \
+            --set-env-vars SUPABASE_SERVICE_KEY=${{ secrets.SUPABASE_SERVICE_KEY }}
