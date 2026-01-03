@@ -18,6 +18,7 @@
 - AI Integration: Google Vertex AI (prompt engineering + RAG)
 - Testing: Pytest (unit & integration testing)
 - DevOps & Infrastructure: Docker, GitHub Actions (CI/CD), Terraform, Google Cloud Run
+- Observability: Cloud Logging & Monitoring (GCP)
 
 ## Architecture diagram
 <img src="images/diagram_v1.png" alt="Alt text" width="800"/>
