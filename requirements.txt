@@ -2,6 +2,7 @@
 supabase
 google-generativeai
 google-cloud-aiplatform
+google-cloud-logging==3.11.3
 
 # Test
 pytest

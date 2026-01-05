@@ -1,8 +1,11 @@
 from flask import Flask, render_template, request, jsonify
 from app.chatbot import answer_question_supabase
 import os
+import google.cloud.logging
 import logging
 
+client = google.cloud.logging.Client()
+client.setup_logging()
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
