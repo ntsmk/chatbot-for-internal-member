@@ -18,7 +18,7 @@ except ImportError:
 
 if USE_NEW_SDK:
     # Google AI SDK setup
-    genai.configure(api_key=os.getenv("GOOGLE_AI_API_KEY")) # todo need to modify this to get API working
+    genai.configure(api_key=os.getenv("GOOGLE_AI_API_KEY"))
     chat_model = genai.GenerativeModel("gemini-2.5-flash-lite")
     # Set up embedding model
     EMBEDDING_MODEL = "gemini-embedding-001"
@@ -31,8 +31,8 @@ else:
 
 # Cloud version using Supabase vector. Not local ChromaDB
 def get_supabase():
-    url = os.getenv("SUPABASE_URL") # todo need to modify this to get API working
-    key = os.getenv("SUPABASE_SERVICE_KEY") # todo need to modify this to get API working
+    url = os.getenv("SUPABASE_URL")
+    key = os.getenv("SUPABASE_SERVICE_KEY")
 
     if not url or not key:
         raise RuntimeError("SUPABASE_URL and SUPABASE_SERVICE_KEY must be set")
