@@ -1,8 +1,20 @@
 from flask import Flask, render_template, request, jsonify
 from app.chatbot import answer_question_supabase
 import os
+import logging
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
+
+logger.info(
+    "service_started",
+    extra={
+        "event": "service_started",
+        "component": "chatbot-service"
+    }
+)
 
 @app.route("/")
 def index():
@@ -16,6 +28,16 @@ def ask():
 
     # separating the message and getting actual user input data
     user_query = data.get("message", "")
+
+    # Adding logging
+    logger.info(
+        "question_received",
+        extra={
+            "event": "question_received",
+            "endpoint": "/ask",
+            "query_length": len(user_query)
+        }
+    )
 
     # calling the main chatbot answering function, getting the answer
     response = answer_question_supabase(user_query)
