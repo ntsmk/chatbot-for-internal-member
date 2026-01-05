@@ -6,7 +6,6 @@ import logging
 
 client = google.cloud.logging.Client()
 client.setup_logging()
-logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
