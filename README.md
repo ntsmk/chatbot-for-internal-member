@@ -7,7 +7,7 @@
 
 ## Expected user of this system
 
-- Newer ish technician who needs fundamental knowledge
+- Newer technician who needs fundamental knowledge
 - Provide step-by-step troubleshooting, link to internal KBs
 
 ## Tech Stack
@@ -18,6 +18,7 @@
 - AI Integration: Google Vertex AI (prompt engineering + RAG)
 - Testing: Pytest (unit & integration testing)
 - DevOps & Infrastructure: Docker, GitHub Actions (CI/CD), Terraform, Google Cloud Run
+- Security & Secrets Management: GitHub Secrets for API credentials and environment variables
 - Observability: Cloud Logging & Monitoring (GCP)
 
 ## Architecture diagram
