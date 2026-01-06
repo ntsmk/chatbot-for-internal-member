@@ -29,7 +29,6 @@
 -   [X] Define the frequent questions and answers for IT support context -> internal wiki created. Defined the frequent questions and answers. -> Done
 -   [X] Just prompt engineering might be enough based on it, or fine-tune the model -> prompt engineering + RAG used -> Done
 -   [X] Deploy the model in /chatbot as simple MVP
--   [ ] Set up monitoring and logging
 
 
 ## Screenshot
