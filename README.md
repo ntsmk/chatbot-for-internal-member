@@ -7,7 +7,7 @@
 
 ## Expected user of this system
 
-- Newer ish technician who needs fundamental knowledge
+- Newer technician who needs fundamental knowledge
 - Provide step-by-step troubleshooting, link to internal KBs
 
 ## Tech Stack
@@ -18,6 +18,7 @@
 - AI Integration: Google Vertex AI (prompt engineering + RAG)
 - Testing: Pytest (unit & integration testing)
 - DevOps & Infrastructure: Docker, GitHub Actions (CI/CD), Terraform, Google Cloud Run
+- Security & Secrets Management: GitHub Secrets for API credentials and environment variables
 - Observability: Cloud Logging & Monitoring (GCP)
 
 ## Architecture diagram
@@ -28,7 +29,7 @@
 
 -   [X] Define the frequent questions and answers for IT support context -> internal wiki created. Defined the frequent questions and answers. -> Done
 -   [X] Just prompt engineering might be enough based on it, or fine-tune the model -> prompt engineering + RAG used -> Done
--   [X] Deploy the model in /chatbot as simple MVP
+-   [X] Deploy the model in /chatbot as simple MVP -> Done
 
 
 ## Screenshot
