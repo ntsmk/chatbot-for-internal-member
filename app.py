@@ -1,22 +1,14 @@
 from flask import Flask, render_template, request, jsonify
 from app.chatbot import answer_question_supabase
 import os
-import google.cloud.logging
-import logging
-
-client = google.cloud.logging.Client()
-client.setup_logging()
-logger = logging.getLogger(__name__)
+import json
 
 app = Flask(__name__)
 
-logger.info(
-    "service_started",
-    extra={
-        "event": "service_started",
-        "component": "chatbot-service"
-    }
-)
+print(json.dumps({
+    "event": "service_started",
+    "component": "chatbot-service"
+}), flush=True)
 
 @app.route("/")
 def index():
@@ -32,14 +24,11 @@ def ask():
     user_query = data.get("message", "")
 
     # Adding logging
-    logger.info(
-        "question_received",
-        extra={
-            "event": "question_received",
-            "endpoint": "/ask",
-            "query_length": len(user_query)
-        }
-    )
+    print(json.dumps({
+        "event": "question_received",
+        "endpoint": "/ask",
+        "query_length": len(user_query)
+    }), flush=True)
 
     # calling the main chatbot answering function, getting the answer
     response = answer_question_supabase(user_query)
