@@ -5,10 +5,11 @@ import json
 
 app = Flask(__name__)
 
+# tried google.cloud.logging.Client() but it did not work so using print() instead, print() is enough
 print(json.dumps({
     "event": "service_started",
     "component": "chatbot-service"
-}), flush=True)
+}), flush=True) # meaning "Write this to stdout immediately"
 
 @app.route("/")
 def index():
