@@ -35,6 +35,8 @@ def ask():
         # calling the main chatbot answering function, getting the answer
         response = answer_question_supabase(user_query)
 
+        # test for logging
+        raise Exception("alert setup test")
         # returning the answer in json format
         return jsonify({"reply": response})
 
