@@ -18,14 +18,15 @@ def index():
 # this is called in script.js
 @app.route("/ask", methods=["POST"])
 def ask():
-    # test for logging error
-    raise Exception("alert setup test")
 
     # getting user input raw data as json
     data = request.get_json()
 
     # separating the message and getting actual user input data
     user_query = data.get("message", "")
+
+    # test for logging error
+    raise Exception("alert setup test")
 
     # Adding logging
     print(json.dumps({
