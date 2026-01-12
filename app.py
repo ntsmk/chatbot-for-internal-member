@@ -31,11 +31,20 @@ def ask():
         "query_length": len(user_query)
     }), flush=True)
 
-    # calling the main chatbot answering function, getting the answer
-    response = answer_question_supabase(user_query)
+    try:
+        # calling the main chatbot answering function, getting the answer
+        response = answer_question_supabase(user_query)
 
-    # returning the answer in json format
-    return jsonify({"reply": response})
+        # returning the answer in json format
+        return jsonify({"reply": response})
+
+    except Exception as e:
+        print(json.dumps({
+            "event": "question_failed",
+            "endpoint": "/ask",
+            "error": str(e),
+            "error_type": type(e).__name__
+        }), flush=True)
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8080))
