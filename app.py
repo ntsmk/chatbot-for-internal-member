@@ -25,8 +25,8 @@ def ask():
     # separating the message and getting actual user input data
     user_query = data.get("message", "")
 
-    # test for logging error
-    raise Exception("alert setup test")
+    # # test for logging error
+    # raise Exception("alert setup test")
 
     # Adding logging
     print(json.dumps({
