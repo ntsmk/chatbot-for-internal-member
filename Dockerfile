@@ -1,15 +1,15 @@
 FROM python:3.10-slim
 
-WORKDIR /app
+WORKDIR /chatbot
 
 # Copy only requirements first — enables Docker build caching
-COPY requirements.txt /app/
+COPY requirements.txt /chatbot/
 
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Now copy the rest of the project
-COPY . /app
+COPY . /chatbot
 
 EXPOSE 8080
 
-CMD ["python", "app.py"]
+CMD ["python", "engine.py"]
