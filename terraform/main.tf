@@ -13,4 +13,3 @@ resource "google_artifact_registry_repository" "chatbot_repo"{
     description = "Docker repository for chatbot app"
     format = "DOCKER"
 }
-
