@@ -8,7 +8,7 @@ def test_answer_question_found(monkeypatch):
 
     # 1. Fake embedding
     monkeypatch.setattr(
-        "chatbot.chatbot.get_query_embedding",
+        "chatbot.engine.get_query_embedding",
         lambda q: [0.01] * 768
     )
 
@@ -69,7 +69,7 @@ def test_answer_question_not_found(monkeypatch):
 
     # 1. Fake embedding
     monkeypatch.setattr(
-        "chatbot.chatbot.get_query_embedding",
+        "chatbot.engine.get_query_embedding",
         lambda q: [0.01] * 768
     )
 
