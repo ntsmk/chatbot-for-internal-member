@@ -6,17 +6,12 @@ import logging
 
 app = Flask(__name__)
 
-# tried google.cloud.logging.Client() but it did not work so using print() instead, print() is enough
+# changed print() to built-in logging
 logging.basicConfig(level=logging.INFO)
 logging.info({
     "event": "service_started",
     "component": "chatbot-service"
 })
-# changing from print() log
-# print(json.dumps({
-#     "event": "service_started",
-#     "component": "chatbot-service"
-# }), flush=True) # meaning "Write this to stdout immediately"
 
 @app.route("/")
 def index():
@@ -35,18 +30,12 @@ def ask():
     # # test for logging error
     # raise Exception("alert setup test")
 
-    # Adding logging
+    # changed print() to built-in logging
     logging.info({
         "event": "question_received",
         "endpoint": "/ask",
         "query_length": len(user_query)
     })
-    # changing from print() log
-    # print(json.dumps({
-    #     "event": "question_received",
-    #     "endpoint": "/ask",
-    #     "query_length": len(user_query)
-    # }), flush=True)
 
     try:
         # calling the main chatbot answering function, getting the answer
@@ -61,13 +50,7 @@ def ask():
             "endpoint": "/ask",
             "error_type": type(e).__name__
         })
-        # changing from print() log
-        # print(json.dumps({
-        #     "event": "question_failed",
-        #     "endpoint": "/ask",
-        #     "error": str(e),
-        #     "error_type": type(e).__name__
-        # }), flush=True)
+
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8080))
