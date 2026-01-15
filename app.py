@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, jsonify
-from app.chatbot import answer_question_supabase
+from chatbot.engine import answer_question_supabase
 import os
-import json
 import logging
 
 app = Flask(__name__)

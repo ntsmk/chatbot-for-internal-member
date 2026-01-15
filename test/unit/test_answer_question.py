@@ -1,14 +1,14 @@
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
-import app.chatbot as chatbot
-from app.chatbot import answer_question_supabase
+import chatbot.engine as chatbot
+from chatbot.engine import answer_question_supabase
 
 def test_answer_question_found(monkeypatch):
 
     # 1. Fake embedding
     monkeypatch.setattr(
-        "app.chatbot.get_query_embedding",
+        "chatbot.chatbot.get_query_embedding",
         lambda q: [0.01] * 768
     )
 
@@ -69,7 +69,7 @@ def test_answer_question_not_found(monkeypatch):
 
     # 1. Fake embedding
     monkeypatch.setattr(
-        "app.chatbot.get_query_embedding",
+        "chatbot.chatbot.get_query_embedding",
         lambda q: [0.01] * 768
     )
 
@@ -111,7 +111,7 @@ def test_answer_question_not_found(monkeypatch):
     # "similarity": 0.2 is not 0.9 in test_answer_question_found, that is why .generate_content not called first off.
     #        if best_similarity < 0.5:
     #        return "Not found in the documentation."
-    # this is in chatbot.py answer_question_supabase function. This is why assert "not found" in result.lower() pass.
+    # this is in engine.py answer_question_supabase function. This is why assert "not found" in result.lower() pass.
 
     # 4. Call real function, but it does not hit gemini real API because of low similarity, skipping Fake Gemini response part
     result = answer_question_supabase("Some random unrelated question")
