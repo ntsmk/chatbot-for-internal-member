@@ -4,7 +4,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")
 
 def test_get_embeddings(monkeypatch):
     monkeypatch.setattr(
-        "chatbot.chatbot.get_embeddings",
+        "chatbot.engine.get_embeddings",
         lambda q: [[0.01] * 768 for _ in texts] # because get_embeddings() returns a list of embeddings
     )
 
@@ -24,7 +24,7 @@ def test_get_embeddings(monkeypatch):
 
 def test_get_query_embedding(monkeypatch):
     monkeypatch.setattr(
-        "chatbot.chatbot.get_query_embedding",
+        "chatbot.engine.get_query_embedding",
         lambda q: [0.01] * 768
     )
 
