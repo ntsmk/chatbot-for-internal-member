@@ -12,4 +12,4 @@ COPY . /chatbot
 
 EXPOSE 8080
 
-CMD ["python", "engine.py"]
+CMD ["python", "app.py"]
