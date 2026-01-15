@@ -2,14 +2,21 @@ from flask import Flask, render_template, request, jsonify
 from app.chatbot import answer_question_supabase
 import os
 import json
+import logging
 
 app = Flask(__name__)
 
 # tried google.cloud.logging.Client() but it did not work so using print() instead, print() is enough
-print(json.dumps({
+logging.basicConfig(level=logging.INFO)
+logging.info({
     "event": "service_started",
     "component": "chatbot-service"
-}), flush=True) # meaning "Write this to stdout immediately"
+})
+# changing from print() log
+# print(json.dumps({
+#     "event": "service_started",
+#     "component": "chatbot-service"
+# }), flush=True) # meaning "Write this to stdout immediately"
 
 @app.route("/")
 def index():
@@ -29,11 +36,17 @@ def ask():
     # raise Exception("alert setup test")
 
     # Adding logging
-    print(json.dumps({
+    logging.info({
         "event": "question_received",
         "endpoint": "/ask",
         "query_length": len(user_query)
-    }), flush=True)
+    })
+    # changing from print() log
+    # print(json.dumps({
+    #     "event": "question_received",
+    #     "endpoint": "/ask",
+    #     "query_length": len(user_query)
+    # }), flush=True)
 
     try:
         # calling the main chatbot answering function, getting the answer
@@ -43,12 +56,18 @@ def ask():
         return jsonify({"reply": response})
 
     except Exception as e:
-        print(json.dumps({
+        logging.exception({
             "event": "question_failed",
             "endpoint": "/ask",
-            "error": str(e),
             "error_type": type(e).__name__
-        }), flush=True)
+        })
+        # changing from print() log
+        # print(json.dumps({
+        #     "event": "question_failed",
+        #     "endpoint": "/ask",
+        #     "error": str(e),
+        #     "error_type": type(e).__name__
+        # }), flush=True)
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8080))
