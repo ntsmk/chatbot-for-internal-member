@@ -22,4 +22,7 @@ jobs:
         env:
           TF_VAR_project_id: ${{ secrets.GCP_PROJECT_ID }}
           TF_VAR_gcp_credentials: ${{ secrets.GCP_CREDENTIALS }}
+          TF_VAR_google_ai_api_key: ${{ secrets.GOOGLE_AI_API_KEY }}
+          TF_VAR_supabase_url: ${{ secrets.SUPABASE_URL }}
+          TF_VAR_supabase_service_key: ${{ secrets.SUPABASE_SERVICE_KEY }}
         run: terraform apply -auto-approve
