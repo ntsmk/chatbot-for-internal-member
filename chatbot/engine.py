@@ -1,6 +1,10 @@
 import os
 from supabase import create_client
 
+MATCH_THRESHOLD = 0.5
+MATCH_COUNT = 3
+BEST_SIMILARITY_THRESHOLD = 0.5
+
 # Future-proof imports - use Google AI SDK instead. Vertex AI SDK will be deprecated.
 try:  # importing new SDK might fail
     import google.generativeai as genai
@@ -150,8 +154,8 @@ def answer_question_supabase(user_query):
             # must exist in Supabase SQL Editor # I added "SQL-function" note in practice folder for actual code and explanation
             {  # these parameter will be sent to the SQL function "match_faqs"
                 "query_embedding": query_vector,  # user word converted as vector. Input words.
-                "match_threshold": 0.5,  # adjust based on testing
-                "match_count": 3
+                "match_threshold": MATCH_THRESHOLD,  # adjust based on testing
+                "match_count": MATCH_COUNT
             }
         ).execute()  # without this .execute(), it does not send HTTP request
 
@@ -173,7 +177,7 @@ def answer_question_supabase(user_query):
 
         # 5. Relevance check — if not similar enough
         # this is actually different, if best_distance > 0.5 is the original form in chroma DB
-        if best_similarity < 0.5:
+        if best_similarity < BEST_SIMILARITY_THRESHOLD:
             return "Not found in the documentation."
 
         # no change here
