@@ -2,8 +2,8 @@ import os
 from supabase import create_client
 
 MATCH_THRESHOLD = 0.5
-MATCH_COUNT = 3
-BEST_SIMILARITY_THRESHOLD = 0.5 # todo could it be 1 instead of 0.5?
+MATCH_COUNT = 1 # only use the best match
+BEST_SIMILARITY_THRESHOLD = 0.5
 
 # Future-proof imports - use Google AI SDK instead. Vertex AI SDK will be deprecated.
 try:  # importing new SDK might fail
