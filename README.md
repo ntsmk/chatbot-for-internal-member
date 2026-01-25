@@ -1,5 +1,8 @@
 # FAQ Chatbot for internal member 
 
+## Live Demo
+https://chatbot-service-898409023407.us-central1.run.app/
+
 ## Background
 
 - I noticed our team lacked a strong internal knowledge base to support new employees.
