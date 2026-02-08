@@ -26,7 +26,7 @@
 
 ### DevOps & Infrastructure
 * **Cloud:** Docker, GitHub Actions (CI/CD), Terraform, Google Cloud Run
-* **Local Lab:** K3s (Lightweight Kubernetes), Containerd, Helm
+* **Local Lab:** K3s (Lightweight Kubernetes), Containerd
 * **Monitoring:** `btop` for hardware telemetry and `kubectl` for cluster observability
 
 ## Hybrid Infrastructure & Learning Lab
