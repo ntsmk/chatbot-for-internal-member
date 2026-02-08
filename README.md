@@ -31,7 +31,7 @@
 
 ## Hybrid Infrastructure & Learning Lab
 
-As part of my growth, I expanded this project to run on a local **Hybrid-Cloud** environment. This allowed me to practice resource-constrained orchestration.
+To deconstruct the orchestration layer behind managed services like Google Cloud Run, I architected a local Hybrid-Cloud environment using K3s. This allowed me to master resource-constrained orchestration and manual scheduling on the metal.
 
 ### The Challenge: 4GB RAM Constraints
 Deploying a modern AI chatbot on 10-year-old hardware required strict resource management:
