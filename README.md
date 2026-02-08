@@ -22,12 +22,11 @@
 - AI Integration: Google Vertex AI (prompt engineering + RAG)
 - Testing: Pytest (unit & integration testing)
 - Security & Secrets Management: GitHub Secrets for API credentials and environment variables
-- Observability: Cloud Logging & Monitoring (GCP)
 
 ### DevOps & Infrastructure
 * **Cloud:** Docker, GitHub Actions (CI/CD), Terraform, Google Cloud Run
 * **Local Lab:** K3s (Lightweight Kubernetes), Containerd
-* **Monitoring:** `btop` for hardware telemetry and `kubectl` for cluster observability
+* **Monitoring:** Cloud Logging & Monitoring (GCP), `btop` for hardware telemetry and `kubectl` for cluster observability
 
 ## Hybrid Infrastructure & Learning Lab
 
