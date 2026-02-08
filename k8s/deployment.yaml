@@ -15,8 +15,8 @@ spec:
       containers:
       - name: chatbot-container
         image: my-chatbot:local
-        imagePullPolicy: Never  # <--- THIS IS THE FIX
-        resources:              # <--- THIS IS YOUR 4GB SAFETY NET
+        imagePullPolicy: Never
+        resources:
           requests:
             memory: "250Mi"
             cpu: "200m"
