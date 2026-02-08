@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chatbot-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: chatbot
+  template:
+    metadata:
+      labels:
+        app: chatbot
+    spec:
+      containers:
+      - name: chatbot-container
+        image: my-chatbot:local
+        imagePullPolicy: Never  # <--- THIS IS THE FIX
+        resources:              # <--- THIS IS YOUR 4GB SAFETY NET
+          requests:
+            memory: "250Mi"
+            cpu: "200m"
+          limits:
+            memory: "500Mi"
+            cpu: "500m"
