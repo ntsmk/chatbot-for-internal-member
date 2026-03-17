@@ -1,7 +1,7 @@
 # FAQ Chatbot for internal member 
 
 ## Deployment Overview
-* **Cloud (Production):** [Live Demo on Google Cloud Run](https://chatbot-service-898409023407.us-central1.run.app/)
+* **Cloud (Production):** Deployed on Google Cloud Run
 * **Local Lab (Edge/Development):** Deployed on a **K3s (Kubernetes)** cluster hosted on a legacy MacBook (2015) running **Linux Mint**.
 
 ## Background
